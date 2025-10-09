@@ -1,0 +1,49 @@
+service: <%= ENV['PROJECT_NAME'] %>-dev
+
+image: <%= ENV['DOCKER_HUB_USERNAME'] %>/<%= ENV['PROJECT_NAME'] %>-dev
+
+servers:
+  web:
+    - "<%= ENV['SERVER_IP'].strip %>"
+
+ssh:
+  user: root
+  keys: ["<%= ENV['SSH_PRIVATE_KEY_FILE'] %>"]
+
+registry:
+  username: <%= ENV['DOCKER_HUB_USERNAME'] %>
+  password:
+    - DOCKER_HUB_TOKEN
+
+builder:
+  dockerfile: ts/apps/dev/Dockerfile
+  context: "."
+  arch: amd64
+  cache:
+    type: registry
+  args:
+    # TODO (amiller68): this really should not be passed as an argument,
+    #  but this is more or less ok for keys with restricted scopes
+    QUOTIENT_PRIVATE_API_KEY: <%= ENV.fetch('QUOTIENT_PRIVATE_API_KEY', '') %>
+    # NOTE (amiller68): these feel like they should be run time, but they are
+    #  actually used during the build phase for the container
+    NEXT_PUBLIC_QUOTIENT_API_KEY: <%= ENV.fetch('NEXT_PUBLIC_QUOTIENT_API_KEY', '') %>
+    NEXT_PUBLIC_APP_URL: https://<%= ENV.fetch('PY_HOST_NAME', '') %>
+
+# Volumes for ISR cache persistence
+volumes:
+  - "/var/lib/kamal-volumes/<%= ENV['PROJECT_NAME'] %>-dev/cache:/app/apps/next/.next/cache"
+
+env:
+  clear:
+    QUOTIENT_PRIVATE_API_KEY: <%= ENV.fetch('QUOTIENT_PRIVATE_API_KEY', '') %>
+    NEXT_PUBLIC_QUOTIENT_API_KEY: <%= ENV.fetch('NEXT_PUBLIC_QUOTIENT_API_KEY', '') %>
+    BASE_URL: https://<%= ENV.fetch('HOST_NAME', '') %>
+    NODE_ENV: production
+
+proxy:
+  ssl: true
+  host: <%= ENV['HOST_NAME'] %>
+  app_port: 3000
+  healthcheck:
+    path: /

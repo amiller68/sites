@@ -10,7 +10,7 @@ install: ## Install dependencies
 	@pnpm install
 
 .PHONY: dev
-dev: styles ## Run development servers (all apps, setup styles first)
+dev: ## Run development servers (all apps, setup styles first)
 	@pnpm dev
 
 .PHONY: build
@@ -31,7 +31,7 @@ fmt-check: ## Check code formatting
 
 .PHONY: types
 types: ## Check TypeScript types
-	@pnpm check-types
+	@pnpm types
 
 .PHONY: lint
 lint: ## Run linter
@@ -51,10 +51,6 @@ clean: ## Clean build artifacts, dependencies, and node_modules
 	@echo "Cleaning turbo cache..."
 	@rm -rf .turbo
 	@echo "✓ Clean complete"
-
-.PHONY: styles
-styles: ## Setup branding asset symlinks
-	@./bin/styles.sh
 
 .PHONY: docker-build
 docker-build: ## Build Docker images

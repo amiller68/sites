@@ -8,9 +8,10 @@ set -o nounset
 export PROJECT_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 # Source utils for logging
 source "$PROJECT_ROOT/bin/utils"
+source "$PROJECT_ROOT/bin/config"
 
 # Configuration
-SESSION_NAME="krondor-dev"
+SESSION_NAME="$PROJECT_NAME-dev"
 PROJECTS=("py" "ts")
 
 # Parse arguments

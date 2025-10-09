@@ -1,0 +1,67 @@
+@layer base {
+  /* Light mode - Brand Colors */
+  :root {
+    --background: 210 33% 98%; /* #F7FAFC - off-white */
+    --foreground: 210 9% 31%; /* #4A5568 - professional gray */
+    
+    --muted: 210 33% 98%; /* #F7FAFC - off-white */
+    --muted-foreground: 210 9% 31%; /* #4A5568 - professional gray */
+    
+    --card: 0 0% 100%; /* white */
+    --card-foreground: 210 9% 31%; /* #4A5568 - professional gray */
+    
+    --popover: 0 0% 100%; /* white */
+    --popover-foreground: 210 9% 31%; /* #4A5568 - professional gray */
+    
+    --border: 214 32% 91%; /* light gray border */
+    --input: 214 32% 91%; /* light gray border */
+    
+    --primary: 220 33% 14%; /* #1A2332 - deep navy */
+    --primary-foreground: 0 0% 100%; /* white */
+    
+    --secondary: 215 16% 22%; /* #2D3748 - lighter navy */
+    --secondary-foreground: 0 0% 100%; /* white */
+    
+    --accent: 199 86% 74%; /* #7DD3FC - bright teal */
+    --accent-foreground: 220 33% 14%; /* #1A2332 - deep navy */
+    
+    --destructive: 0 84.2% 60.2%; /* error red */
+    --destructive-foreground: 0 0% 98%; /* white text */
+    
+    --ring: 199 86% 74%; /* #7DD3FC - bright teal */
+    
+    --radius: 0.5rem;
+  }
+  
+  /* Dark mode - Brand Colors */
+  .dark {
+    --background: 220 33% 14%; /* #1A2332 - deep navy as background */
+    --foreground: 210 17% 82%; /* #CBD5E0 - light gray for text */
+    
+    --muted: 215 15% 20%; /* #293341 - very dark navy */
+    --muted-foreground: 210 11% 55%; /* #8491A3 - muted gray text */
+    
+    --card: 215 16% 22%; /* #2D3748 - lighter navy for cards */
+    --card-foreground: 210 17% 82%; /* #CBD5E0 - light gray for text */
+    
+    --popover: 215 16% 22%; /* #2D3748 - lighter navy */
+    --popover-foreground: 210 17% 82%; /* #CBD5E0 - light gray for text */
+    
+    --border: 215 15% 28%; /* #3A4556 - medium navy border */
+    --input: 215 15% 28%; /* #3A4556 - medium navy border */
+    
+    --primary: 199 86% 74%; /* #7DD3FC - bright teal as primary */
+    --primary-foreground: 220 33% 14%; /* #1A2332 - deep navy text on teal */
+    
+    --secondary: 215 15% 28%; /* #3A4556 - medium navy */
+    --secondary-foreground: 210 17% 82%; /* #CBD5E0 - light gray text */
+    
+    --accent: 199 86% 74%; /* #7DD3FC - bright teal */
+    --accent-foreground: 220 33% 14%; /* #1A2332 - deep navy */
+    
+    --destructive: 0 65% 65%; /* lighter red for dark mode */
+    --destructive-foreground: 0 0% 98%; /* white text */
+    
+    --ring: 199 86% 74%; /* #7DD3FC - bright teal */
+  }
+}

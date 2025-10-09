@@ -11,7 +11,7 @@ source "$PROJECT_ROOT/bin/utils"
 source "$PROJECT_ROOT/bin/config"
 
 # Configuration
-SESSION_NAME="krondor-deploy"
+SESSION_NAME="$PROJECT_NAME-deploy"
 
 # Parse arguments
 SELECTED_SERVICES=()

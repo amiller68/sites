@@ -2,21 +2,16 @@ name: CI 🚀
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  # Python CI
-  py-ci:
-    name: Python CI
-    uses: ./.github/workflows/ci-py.yml
-    
   # TypeScript CI
   ts-ci:
     name: TypeScript CI
     uses: ./.github/workflows/ci-ts.yml
-    
+
   ci-success:
     name: CI Success
     runs-on: ubuntu-latest

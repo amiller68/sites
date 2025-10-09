@@ -1,9 +1,9 @@
 terraform {
   cloud {
-    organization = "krondor-generic-org"
+    organization = "krondor-sites-org"
 
     workspaces {
-      name = "krondor-generic-production"
+      name = "krondor-sites-production"
     }
   }
 }

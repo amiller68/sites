@@ -7,11 +7,12 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "build:dev": "../bin/vault run --stage development -- turbo run build --env-mode=loose",
+    "dev": "../bin/vault run --stage development -- turbo run dev --env-mode=loose",
     "test": "turbo run test",
     "fmt": "turbo run fmt",
     "fmt:check": "turbo run fmt:check",
-    "check-types": "turbo run check-types",
+    "types": "turbo run check-types",
     "clean": "turbo run clean"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 ARGS ?=
 
 # TODO: Add more projects as needed here
-PROJECTS := py ts
+PROJECTS := ts
 
 .PHONY: help
 help: ## Show this help message
@@ -172,10 +172,10 @@ tfc: ## Terraform Cloud management - pass all arguments after 'tfc' to the scrip
 iac: ## Infrastructure management - run terraform with vault secrets
 	@./bin/iac $(filter-out $@,$(MAKECMDGOALS))
 
-# Deployment management - pass all arguments after 'deploy' to the kamal script
+# Deployment management - pass all arguments after 'kamal' to the kamal script
 .PHONY: kamal
-kamal: ## Deploy services using Kamal - usage: make deploy ARGS="<service> <stage> <command>"
-	@./bin/kamal $(ARGS)
+kamal: ## Deploy services using Kamal
+	@./bin/kamal $(filter-out $@,$(MAKECMDGOALS))
 
 # Catch additional arguments to tfc, ghcr, iac, and deploy commands
 %:
