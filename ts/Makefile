@@ -13,6 +13,10 @@ install: ## Install dependencies
 dev: ## Run development servers (all apps)
 	@pnpm dev
 
+.PHONY: build-dev
+build-dev: ## Build development version of all projects
+	@pnpm build:dev
+
 .PHONY: build
 build: ## Build all projects
 	@pnpm build

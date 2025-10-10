@@ -30,7 +30,11 @@ const navItems: NavItem[] = [
   // { href: "/projects", label: "projects" },
   { href: "/blog", label: "blog" },
   { href: "/contact", label: "contact" },
-  { href: process.env.NEXT_PUBLIC_MISC_APP_URL || "http://localhost:3001", label: "misc", external: true },
+  {
+    href: process.env.NEXT_PUBLIC_MISC_APP_URL || "http://localhost:3001",
+    label: "misc",
+    external: true,
+  },
 ];
 
 export default function RootLayout({
