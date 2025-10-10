@@ -3,6 +3,7 @@ import Link from "next/link";
 import { quotientClient } from "@/services";
 import { formatPublishDate, formatAuthorString } from "@/lib/blog";
 import type { Blog } from "@/lib/quotient/types";
+import { Subscribe } from "../components/subscribe";
 
 // Enable ISR with 60 second revalidation
 export const revalidate = 60;
@@ -25,6 +26,10 @@ export default async function BlogPage() {
       <div className="max-w-3xl w-full">
         <TypingHeader text="> blog" size="text-4xl" />
 
+        <div className="mt-6">
+          <Subscribe />
+        </div>
+
         {blogs.length === 0 ? (
           <p className="mt-8 text-muted-foreground">no posts yet...</p>
         ) : (
@@ -35,7 +40,7 @@ export default async function BlogPage() {
                 className="border-b border-border pb-8 last:border-0"
               >
                 <Link href={`/blog/${blog.slug}`} className="group block">
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
                     <h2 className="text-2xl font-semibold group-hover:text-primary transition-colors">
                       {blog.title}
                     </h2>

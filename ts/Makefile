@@ -10,11 +10,11 @@ install: ## Install dependencies
 	@pnpm install
 
 .PHONY: dev
-dev: ## Run development servers (all apps, setup styles first)
+dev: ## Run development servers (all apps)
 	@pnpm dev
 
 .PHONY: build
-build: styles ## Build all projects (setup styles first)
+build: ## Build all projects
 	@pnpm build
 
 .PHONY: test

@@ -5,10 +5,9 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center h-[80vh]">
       <div className="max-w-[50ch] flex flex-col items-center">
-        <TypingHeader text="> it's nice to see u" size="text-4xl" />
-        <p className="mt-8 text-xl text-center leading-relaxed text-muted-foreground">
-          building cool stuff with great people. frontend, backend,
-          infrastructure, whatever solves the problem.
+        <TypingHeader text="> welcome to my art space" size="text-4xl" />
+        <p className="mt-6 text-center text-muted-foreground">
+          creative notes, visual works, and music
         </p>
         <div className="mt-8">
           <SocialLinks />

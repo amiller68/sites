@@ -1,9 +1,9 @@
 {
-  "name": "dev",
+  "name": "art",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3000",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "lint": "next lint",
     "check-types": "tsc --noEmit",
@@ -12,10 +12,6 @@
     "clean": "rm -rf node_modules .turbo .next"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.9.1",
-    "@quotientjs/client": "0.3.0",
-    "@quotientjs/react": "^0.8.5",
-    "@quotientjs/server": "0.3.0",
     "@repo/ui": "workspace:*",
     "@radix-ui/react-accordion": "^1.2.2",
     "@radix-ui/react-alert-dialog": "^1.1.4",

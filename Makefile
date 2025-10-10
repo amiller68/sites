@@ -53,14 +53,6 @@ install: ## Install dependencies for all projects
 install-%: ## Install dependencies for the given project
 	@$(MAKE) run-for PROJECT=$(@:install-%=%) CMD=install
 
-.PHONY: dev
-dev: ## Run all development servers in tmux (use ARGS="--kill" to kill session)
-	@./bin/dev $(ARGS)
-
-.PHONY: dev-%
-dev-%: ## Run development server for the given project
-	@$(MAKE) run-for PROJECT=$(@:dev-%=%) CMD=dev
-
 .PHONY: build
 build: ## Build all projects
 	@for project in $(PROJECTS); do \

@@ -18,19 +18,11 @@ const vt323 = VT323({
   variable: "--font-vt323",
 });
 
-type NavItem = {
-  href: string;
-  label: string;
-  external?: boolean;
-};
-
-const navItems: NavItem[] = [
+const navItems = [
   { href: "/", label: "home" },
-  { href: "/about", label: "about" },
-  // { href: "/projects", label: "projects" },
-  { href: "/blog", label: "blog" },
-  { href: "/contact", label: "contact" },
-  { href: process.env.NEXT_PUBLIC_MISC_APP_URL || "http://localhost:3001", label: "misc", external: true },
+  { href: "/notes", label: "notes" },
+  { href: "/gallery", label: "gallery" },
+  { href: "/music", label: "music" },
 ];
 
 export default function RootLayout({
@@ -59,33 +51,24 @@ export default function RootLayout({
                 <ul className="flex gap-3 sm:gap-6">
                   {navItems.map((item) => (
                     <li key={item.href}>
-                      {item.external ? (
-                        <a
-                          href={item.href}
-                          className="text-sm font-roboto-mono transition-colors hover:text-primary text-foreground"
-                        >
-                          {item.label}
-                        </a>
-                      ) : (
-                        <Link
-                          href={item.href}
-                          className={cn(
-                            "text-sm font-roboto-mono transition-colors hover:text-primary",
-                            pathname === item.href
-                              ? "text-primary font-semibold"
-                              : "text-foreground",
-                          )}
-                        >
-                          {item.label}
-                        </Link>
-                      )}
+                      <Link
+                        href={item.href}
+                        className={cn(
+                          "text-sm font-roboto-mono transition-colors hover:text-primary",
+                          pathname === item.href
+                            ? "text-primary font-semibold"
+                            : "text-foreground",
+                        )}
+                      >
+                        {item.label}
+                      </Link>
                     </li>
                   ))}
                 </ul>
               </div>
             </nav>
 
-            <main className="flex-grow mb-12">{children}</main>
+            <main className="flex-grow">{children}</main>
 
             {/* Footer */}
             <footer className="mt-auto border-t border-border">

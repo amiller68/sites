@@ -29,6 +29,7 @@ builder:
     #  actually used during the build phase for the container
     NEXT_PUBLIC_QUOTIENT_API_KEY: <%= ENV.fetch('NEXT_PUBLIC_QUOTIENT_API_KEY', '') %>
     NEXT_PUBLIC_APP_URL: https://<%= ENV.fetch('PY_HOST_NAME', '') %>
+    NEXT_PUBLIC_MISC_APP_URL: https://<%= ENV.fetch('ART_HOST_NAME', '') %>
 
 # Volumes for ISR cache persistence
 volumes:
@@ -39,6 +40,7 @@ env:
     QUOTIENT_PRIVATE_API_KEY: <%= ENV.fetch('QUOTIENT_PRIVATE_API_KEY', '') %>
     NEXT_PUBLIC_QUOTIENT_API_KEY: <%= ENV.fetch('NEXT_PUBLIC_QUOTIENT_API_KEY', '') %>
     BASE_URL: https://<%= ENV.fetch('HOST_NAME', '') %>
+    NEXT_PUBLIC_MISC_APP_URL: https://<%= ENV.fetch('ART_HOST_NAME', '') %>
     NODE_ENV: production
 
 proxy:

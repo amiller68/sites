@@ -1,7 +1,7 @@
 # Use node-20 as a base
 FROM node:20-alpine AS base
 
-ARG SERVICE_NAME=dev
+ARG SERVICE_NAME=art
 
 # 1. prune phase
 FROM base AS pruner
@@ -21,18 +21,6 @@ RUN turbo prune ${SERVICE_NAME} --docker
 
 # 2. install + build phase
 FROM base AS builder
-
-# TODO (amiller68): this should really be using the secrets functionality
-#  implemented by kamal for something like this: https://kamal-deploy.org/docs/configuration/builders/#referencing-build-secrets
-# Accept build arg for Quotient private key (needed for build-time data fetching)
-ARG QUOTIENT_PRIVATE_API_KEY
-ENV QUOTIENT_PRIVATE_API_KEY=${QUOTIENT_PRIVATE_API_KEY}
-ARG NEXT_PUBLIC_QUOTIENT_API_KEY
-ENV NEXT_PUBLIC_QUOTIENT_API_KEY=${NEXT_PUBLIC_QUOTIENT_API_KEY}
-ARG NEXT_PUBLIC_APP_URL
-ENV NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
-ARG NEXT_PUBLIC_MISC_APP_URL
-ENV NEXT_PUBLIC_MISC_APP_URL=${NEXT_PUBLIC_MISC_APP_URL}
 
 # install deps
 RUN apk update
@@ -62,13 +50,12 @@ COPY --from=pruner /app/out/full/ .
 COPY --from=pruner /app/packages/typescript-config/ ./packages/typescript-config/
 
 # Build the next app with its dependencies using turbo
-# Explicitly pass QUOTIENT_PRIVATE_API_KEY to the build process
-RUN QUOTIENT_PRIVATE_API_KEY=${QUOTIENT_PRIVATE_API_KEY} turbo run build --filter=${SERVICE_NAME}...
+RUN turbo run build --filter=${SERVICE_NAME}...
 
 # 3. run phase - Node.js server for ISR
 FROM base AS runner
 
-ARG SERVICE_NAME=dev
+ARG SERVICE_NAME=art
 ENV SERVICE_NAME=${SERVICE_NAME}
 
 # Install curl for health checks
@@ -90,18 +77,14 @@ RUN mkdir -p /app/apps/${SERVICE_NAME}/.next/cache && chown -R nextjs:nodejs /ap
 
 USER nextjs
 
-EXPOSE 3000
+EXPOSE 3001
 
-ENV PORT=3000
+ENV PORT=3001
 ENV HOSTNAME="0.0.0.0"
-ENV QUOTIENT_PRIVATE_API_KEY=${QUOTIENT_PRIVATE_API_KEY}
-ENV NEXT_PUBLIC_QUOTIENT_API_KEY=${NEXT_PUBLIC_QUOTIENT_API_KEY}
-ENV NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
-ENV NEXT_PUBLIC_MISC_APP_URL=${NEXT_PUBLIC_MISC_APP_URL}
 ENV NODE_ENV=production
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:3000/ || exit 1
+    CMD curl -f http://localhost:3001/ || exit 1
 
 CMD node apps/${SERVICE_NAME}/server.js

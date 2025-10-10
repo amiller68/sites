@@ -1,0 +1,12 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "env": [
+        "QUOTIENT_PRIVATE_API_KEY",
+        "NEXT_PUBLIC_QUOTIENT_API_KEY",
+        "NEXT_PUBLIC_APP_URL"
+      ]
+    }
+  }
+}
