@@ -13,3 +13,13 @@ output "digitalocean_droplet_ip" {
   description = "The IP address of the droplet"
   value       = module.digitalocean_droplet.ipv4_address
 }
+
+output "digitalocean_volume_id" {
+  description = "The ID of the volume"
+  value       = module.digitalocean_volume.id
+}
+
+output "digitalocean_volume_filesystem_label" {
+  description = "The filesystem label of the volume"
+  value       = module.digitalocean_volume.filesystem_label
+}
