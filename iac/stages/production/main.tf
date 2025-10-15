@@ -12,12 +12,17 @@ module "common" {
   subdomains   = var.subdomains
   digitalocean = {
     droplet = {
-      region = "nyc3"
+      region           = "nyc3"
+      additional_ports = ["9000"]
     }
   }
   cloudflare   = {
-    ttl          = 300
-    proxied      = false
+    ttl           = 300
+    proxied       = false
     dns_root_zone = var.dns_root_zone
+  }
+  volume = {
+    size        = 20
+    description = "Persistent storage for Jax node configuration and data"
   }
 }

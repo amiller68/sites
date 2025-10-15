@@ -28,7 +28,8 @@ variable "digitalocean" {
   description = "Configuration for DigitalOcean infrastructure"
   type = object({
     droplet = object({
-      region = string
+      region           = string
+      additional_ports = optional(list(string), [])
     })
   })
 }
@@ -46,4 +47,13 @@ variable "cloudflare" {
 variable "subdomains" {
   description = "Comma-separated list of subdomains to create DNS records for (@ for root)"
   type        = string
+}
+
+# Volume configuration
+variable "volume" {
+  description = "Configuration for DigitalOcean volume"
+  type = object({
+    size        = optional(number, 10)
+    description = optional(string, "")
+  })
 }

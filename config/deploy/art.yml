@@ -37,3 +37,4 @@ proxy:
   app_port: 3001
   healthcheck:
     path: /
+    timeout: 30
