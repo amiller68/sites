@@ -7,7 +7,8 @@ import { formatAuthorString, formatPublishDate } from "@/lib/blog";
 import { quotientClient } from "@/services";
 import type { Blog } from "@/lib/quotient/types";
 
-// Enable ISR with 60 second revalidation
+// Force static generation
+export const dynamic = "force-static";
 export const revalidate = 60;
 
 // Generate static params for all blog posts at build time

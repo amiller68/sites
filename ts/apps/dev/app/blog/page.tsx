@@ -5,7 +5,8 @@ import { formatPublishDate, formatAuthorString } from "@/lib/blog";
 import type { Blog } from "@/lib/quotient/types";
 import { Subscribe } from "../components/subscribe";
 
-// Enable ISR with 60 second revalidation
+// Force static generation
+export const dynamic = "force-static";
 export const revalidate = 60;
 
 export default async function BlogPage() {
