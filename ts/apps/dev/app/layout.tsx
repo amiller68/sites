@@ -4,6 +4,7 @@ import { Roboto_Mono, VT323 } from "next/font/google";
 import "./globals.css";
 import { ClientProviders } from "@/providers/client-providers";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@repo/ui";
 
@@ -58,7 +59,7 @@ export default function RootLayout({
             <nav className="w-full py-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4 sm:gap-0">
                 <Link href="/" className="hover:opacity-80 transition-opacity">
-                  <img src="/icon.svg" alt="Logo" className="w-8 h-8" />
+                  <Image src="/icon.svg" alt="Logo" width={32} height={32} />
                 </Link>
                 <ul className="flex gap-3 sm:gap-6">
                   {navItems.map((item) => (

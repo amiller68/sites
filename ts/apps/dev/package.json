@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
-    "@quotientjs/client": "0.3.0",
-    "@quotientjs/react": "^0.8.5",
-    "@quotientjs/server": "0.3.0",
+    "@quotientjs/client": "0.4.2",
+    "@quotientjs/react": "^0.9.1",
+    "@quotientjs/server": "0.4.2",
     "@repo/ui": "workspace:*",
     "@radix-ui/react-accordion": "^1.2.2",
     "@radix-ui/react-alert-dialog": "^1.1.4",

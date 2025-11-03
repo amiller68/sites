@@ -186,14 +186,14 @@ importers:
         specifier: ^3.9.1
         version: 3.10.0(react-hook-form@7.64.0(react@19.2.0))
       '@quotientjs/client':
-        specifier: 0.3.0
-        version: 0.3.0
+        specifier: 0.4.2
+        version: 0.4.2
       '@quotientjs/react':
-        specifier: ^0.8.5
-        version: 0.8.8(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        specifier: ^0.9.1
+        version: 0.9.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@quotientjs/server':
-        specifier: 0.3.0
-        version: 0.3.0
+        specifier: 0.4.2
+        version: 0.4.2
       '@radix-ui/react-accordion':
         specifier: ^1.2.2
         version: 1.2.12(@types/react-dom@19.2.1(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -959,20 +959,11 @@ packages:
   '@quotientjs/blog@1.1.1':
     resolution: {integrity: sha512-jUd4MJfQIAfsRwNYCpUwPH4MHRU98menPiW7Mfntwa2+S2KeftzZPXeUxl2zGOksHDGaiSE8zA+B6F6T8yVQlw==}
 
-  '@quotientjs/browser-fingerprint@0.1.1':
-    resolution: {integrity: sha512-9mCd+uoo5Tt9JIn1gFSzFhZWVoCVticy5mZUGSFnAvpjRgKQ/PLSvNq2lCtpDyG/atfTjpzjwg/cxmOIz2EPGA==}
-
   '@quotientjs/browser-fingerprint@0.1.3':
     resolution: {integrity: sha512-WXlgJepkpSrMOvPG1iis8D0aGVDnHwlW89eLSiEHNuayQzscfCkBYAVNr3jDLedalGPhxTtlsgUj3JVZ/TbUDA==}
 
-  '@quotientjs/browser-storage@0.1.1':
-    resolution: {integrity: sha512-nybOidSriw/w6WLtWmey/p4ZVlcDP8EJ4gZ9DDsXAn+kNn0eu/UjKLzVsLh++bw9qmGD2Y2UjnynX9jSMMVHYQ==}
-
   '@quotientjs/browser-storage@0.1.3':
     resolution: {integrity: sha512-IW+VJDJ6LTFVRVSOL/x/uPruPhS6Gks5OnuLBYavnkXhMJ92fiLBZTnkr0niHdGUHxZfYBKw6cE6ghbj656zfw==}
-
-  '@quotientjs/client@0.3.0':
-    resolution: {integrity: sha512-MqUWLdHYx3g+akbeHBOROcLSwy97wVbt6gzv5KHn2T//CF8b4aPFFBIvOy4pehnOfuOZt59zlzx4TrWslGHV0A==}
 
   '@quotientjs/client@0.4.2':
     resolution: {integrity: sha512-NFJfm5UsY6oIouiS5t3yBgq2w6J+RrgNdt/IG6MQftkr9+JSwHindCyIHYMa/2hZ5/0TVSijnpglt05bwhbFDg==}
@@ -980,23 +971,17 @@ packages:
   '@quotientjs/core@0.10.1':
     resolution: {integrity: sha512-D9sVlVsXu7qaUK6lCoe0IvJJ1FiAnXJ4WFlXudhvqNFbDoPkDc3wwHWvkxBVx/rwkuwL4rGiGmxpgyYoamgcpg==}
 
-  '@quotientjs/core@0.3.0':
-    resolution: {integrity: sha512-0prZa2tLlbX2W86ByXqZddR9kDWXRunIQN4KhJbWgUuTbAszJ6aa5R2MxYlm6CZUrxzEHBQzSa5YplRcThOnsQ==}
-
-  '@quotientjs/error@0.1.1':
-    resolution: {integrity: sha512-N2ajqsvQxOMmETHkSYjkR9cIr4LDC6yS3GfYI6/sXjusrn8K2Xg6R6lDHztT+liQJYmrM1Kjiv65lGHpvljXlA==}
-
   '@quotientjs/error@0.1.2':
     resolution: {integrity: sha512-oMbqax8NdyjFFxbEC791uxKzE2VJ3SibqmOXya2lHHejiRGfTKc1k1MCQnbm73Wl41j01mhRx8Y/kU2tEGAJGg==}
 
-  '@quotientjs/react@0.8.8':
-    resolution: {integrity: sha512-hjRJXGQGONDcROdW3MNYWb+MDxl71lNZ5PCRiFW5eHfe/drX7ZwBcN75jPT/HYIL2Rv7FYA+78egSSRnDmDYpw==}
+  '@quotientjs/react@0.9.1':
+    resolution: {integrity: sha512-5jZHwmd6DoIeGfKM0GW7hse8e8NrUHMRp6FzAPwxdBVIy7ivp6dWXc9ihyjNRD5LXTkcAiqAMPsr0HfH9JvzOA==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
 
-  '@quotientjs/server@0.3.0':
-    resolution: {integrity: sha512-t+o7rtfPtH6grLRuFvaE7mkd1fu2X8uTr4HaLHy2AtnrLcGmzhzEAXaC2s1hL/vXr77Lt5MBDyOt/K/mURkNnQ==}
+  '@quotientjs/server@0.4.2':
+    resolution: {integrity: sha512-xnzPkFnbWbYjT3thQ7adon3i6zuGDhe39N7IrAolLhjeA0nXdCuDBcFse5w+JlVAdqNOiQDGEkZZr9gBIswmpQ==}
     engines: {node: '>=18.0.0'}
 
   '@radix-ui/number@1.1.1':
@@ -2450,9 +2435,6 @@ packages:
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
-
-  crypto-js@4.2.0:
-    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
 
   css.escape@1.5.1:
     resolution: {integrity: sha512-YUifsXXuknHlUsmlgyY0PKzgPOr7/FjCePfHNt0jxm83wHZi44VDMQ7/fGNkjY3/jV1MC+1CmZbaHzugyeRtpg==}
@@ -4666,25 +4648,9 @@ snapshots:
     dependencies:
       zod: 3.24.1
 
-  '@quotientjs/browser-fingerprint@0.1.1':
-    dependencies:
-      crypto-js: 4.2.0
-
   '@quotientjs/browser-fingerprint@0.1.3': {}
 
-  '@quotientjs/browser-storage@0.1.1':
-    dependencies:
-      zod: 3.25.76
-
   '@quotientjs/browser-storage@0.1.3': {}
-
-  '@quotientjs/client@0.3.0':
-    dependencies:
-      '@quotientjs/browser-fingerprint': 0.1.1
-      '@quotientjs/browser-storage': 0.1.1
-      '@quotientjs/core': 0.3.0
-      uuid: 9.0.1
-      zod: 3.25.76
 
   '@quotientjs/client@0.4.2':
     dependencies:
@@ -4697,22 +4663,11 @@ snapshots:
       '@quotientjs/browser-fingerprint': 0.1.3
       '@quotientjs/error': 0.1.2
 
-  '@quotientjs/core@0.3.0':
-    dependencies:
-      '@quotientjs/browser-fingerprint': 0.1.1
-      '@quotientjs/error': 0.1.1
-      uuid: 9.0.1
-      zod: 3.25.76
-
-  '@quotientjs/error@0.1.1':
-    dependencies:
-      zod: 3.25.76
-
   '@quotientjs/error@0.1.2':
     dependencies:
       zod: 3.25.76
 
-  '@quotientjs/react@0.8.8(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@quotientjs/react@0.9.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@quotientjs/blog': 1.1.1
       '@quotientjs/client': 0.4.2
@@ -4723,9 +4678,9 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
-  '@quotientjs/server@0.3.0':
+  '@quotientjs/server@0.4.2':
     dependencies:
-      '@quotientjs/core': 0.3.0
+      '@quotientjs/core': 0.10.1
       zod: 3.25.76
 
   '@radix-ui/number@1.1.1': {}
@@ -6302,8 +6257,6 @@ snapshots:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
-
-  crypto-js@4.2.0: {}
 
   css.escape@1.5.1: {}
 

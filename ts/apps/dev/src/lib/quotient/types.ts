@@ -8,7 +8,7 @@ export interface Blog {
   rawHtml?: string | null;
   authors: {
     id: string;
-    name: string;
+    name: string | null;
     emailAddress?: string | null;
     avatarUrl?: string | null;
   }[];

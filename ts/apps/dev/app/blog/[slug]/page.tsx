@@ -41,6 +41,7 @@ export async function generateMetadata({
   let blog;
   try {
     const result = await quotientClient.blog.get({ slug });
+
     blog = result.blog;
   } catch (error) {
     console.error(`Error fetching blog metadata for slug: ${slug}`, error);
@@ -58,9 +59,11 @@ export async function generateMetadata({
   }
 
   const authors = formatAuthorString(
-    blog.authors.map((author) => ({
-      name: author.name,
-    })),
+    blog.authors
+      .filter((author) => author.name)
+      .map((author) => ({
+        name: author.name!,
+      })),
   );
   const tags = blog.tags.map((tag) => tag.name).join(", ");
 
@@ -118,8 +121,6 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
     return notFound();
   }
 
-  const category = blog.tags[0]?.name;
-
   return (
     <div className="flex justify-center py-12">
       <div className="max-w-3xl w-full">
@@ -146,11 +147,16 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
         <article>
           {/* Header */}
           <header className="mb-12">
-            {category && (
-              <div className="mb-4">
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-muted text-muted-foreground">
-                  {category}
-                </span>
+            {blog.tags && blog.tags.length > 0 && (
+              <div className="mb-4 flex flex-wrap gap-2">
+                {blog.tags.map((tag) => (
+                  <span
+                    key={tag.id}
+                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-muted text-muted-foreground"
+                  >
+                    {tag.name}
+                  </span>
+                ))}
               </div>
             )}
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
@@ -169,9 +175,11 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
                 <>
                   <span>
                     {formatAuthorString(
-                      blog.authors.map((author) => ({
-                        name: author.name,
-                      })),
+                      blog.authors
+                        .filter((author) => author.name)
+                        .map((author) => ({
+                          name: author.name!,
+                        })),
                     )}
                   </span>
                   <span>•</span>
