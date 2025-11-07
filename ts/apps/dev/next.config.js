@@ -13,6 +13,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "autonomous-images.s3.amazonaws.com",
       },
+      {
+        protocol: "https",
+        hostname: "d3s5tvvri2obkg.cloudfront.net",
+      },
     ],
   },
   env: {
