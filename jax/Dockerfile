@@ -40,9 +40,5 @@ ENV PEER_PORT=${PEER_PORT}
 COPY jax/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Health check - verify HTML endpoint is responding
-HEALTHCHECK --interval=30s --timeout=150s --start-period=45s --retries=5 \
-    CMD curl -f http://localhost:${HTML_PORT}/_status/livez || exit 1
-
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["daemon", "--ui-read-only"]
