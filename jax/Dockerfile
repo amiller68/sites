@@ -1,5 +1,5 @@
 # Multi-stage build for smaller final image
-FROM rust:1.85-slim as builder
+FROM rust:1.89-slim as builder
 
 # Install jax-bucket from crates.io with pinned version
 ARG JAX_VERSION=0.1.3
