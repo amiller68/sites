@@ -2,7 +2,7 @@
 FROM rust:1.89-slim as builder
 
 # Install jax-bucket from crates.io with pinned version
-ARG JAX_VERSION=0.1.3
+ARG JAX_VERSION=0.1.4
 RUN cargo install jax-bucket --version ${JAX_VERSION}
 
 # Runtime stage with minimal dependencies
