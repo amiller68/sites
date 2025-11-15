@@ -41,7 +41,7 @@ COPY jax/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Health check - verify HTML endpoint is responding
-HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=150s --start-period=45s --retries=5 \
     CMD curl -f http://localhost:${HTML_PORT}/_status/livez || exit 1
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
