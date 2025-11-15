@@ -1,5 +1,7 @@
 service: <%= ENV['PROJECT_NAME'] %>-jax
 
+deploy_timeout: 180
+
 image: <%= ENV['DOCKER_HUB_USERNAME'] %>/<%= ENV['PROJECT_NAME'] %>-jax
 
 servers:

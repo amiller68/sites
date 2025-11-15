@@ -226,7 +226,6 @@ jobs:
         run: |
           bin/kamal art production deploy
 
-
   deploy-jax:
     needs: detect-changes
     if: needs.detect-changes.outputs.deploy-jax == 'true'
@@ -246,7 +245,7 @@ jobs:
           ruby-version: 3.2.2
 
       - name: Install Kamal
-        run: gem install kamal --version 2.4.0
+        run: gem install kamal --version 2.8.0
 
       - name: Install 1Password CLI
         uses: 1password/install-cli-action@v1
