@@ -39,3 +39,5 @@ proxy:
   app_port: 8080
   healthcheck:
     path: /_status/livez
+    interval: 15
+    max_attempts: 15
