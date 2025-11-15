@@ -11,6 +11,7 @@ jobs:
     outputs:
       deploy-dev: ${{ steps.filter.outputs.dev }}
       deploy-art: ${{ steps.filter.outputs.art }}
+      deploy-jax: ${{ steps.filter.outputs.jax }}
     steps:
       - uses: actions/checkout@v4
 
