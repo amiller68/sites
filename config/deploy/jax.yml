@@ -26,7 +26,7 @@ builder:
 
 # Volumes for persistent node configuration and data
 volumes:
-  - "/var/lib/kamal-volumes/<%= ENV['PROJECT_NAME'] %>-jax/node:/data/node"
+  - "/var/lib/kamal-volumes/<%= ENV['PROJECT_NAME'] %>-jax/node-1.4:/data/node"
 
 env:
   clear:
