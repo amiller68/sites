@@ -2,7 +2,7 @@
 FROM rust:1.85-slim as builder
 
 # Install jax-bucket from crates.io with pinned version
-ARG JAX_VERSION=0.1.2
+ARG JAX_VERSION=0.1.3
 RUN cargo install jax-bucket --version ${JAX_VERSION}
 
 # Runtime stage with minimal dependencies
@@ -45,4 +45,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 \
     CMD curl -f http://localhost:${HTML_PORT}/_status/livez || exit 1
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-CMD ["service", "--ui-read-only"]
+CMD ["daemon", "--ui-read-only"]
