@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+# Pre-app-boot hook for JAX service
+# Stops any running JAX container before booting new one to prevent
+# database lock conflicts on the shared blobs store
+
+require 'sshkit'
+require 'sshkit/dsl'
+include SSHKit::DSL
+
+# Only run for JAX service
+if ENV['KAMAL_SERVICE']&.include?('jax')
+  hosts = ENV['KAMAL_HOSTS']&.split(',') || []
+
+  hosts.each do |host|
+    on host, user: 'root' do
+      # Find and stop any running JAX containers
+      container_names = capture("docker ps --filter 'label=service=krondor-sites-jax' --filter 'label=role=web' --format '{{.Names}}'", raise_on_non_zero_exit: false).split("\n")
+
+      container_names.each do |container_name|
+        next if container_name.strip.empty?
+        puts "Stopping existing container: #{container_name}"
+        execute("docker stop #{container_name}")
+      end
+
+      puts "No existing JAX containers found" if container_names.empty? || container_names.all?(&:empty?)
+    end
+  end
+end
