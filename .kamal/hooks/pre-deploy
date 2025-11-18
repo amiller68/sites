@@ -10,19 +10,31 @@ echo "Running pre-deploy hook for ${KAMAL_SERVICE_NAME:-unknown service}..."
 
 # Only run this for the JAX service
 if [[ "${KAMAL_SERVICE_NAME}" == *"jax"* ]]; then
-  echo "Checking for existing JAX containers..."
+  echo "Checking for existing JAX containers on remote hosts..."
 
-  # Find any running JAX container
-  CONTAINER_NAME=$(docker ps --filter "label=service=${KAMAL_SERVICE_NAME}" --filter "label=role=web" --format "{{.Names}}" | head -1)
+  # KAMAL_HOSTS contains comma-separated list of target hosts
+  # We need to run the stop command on each host via SSH
+  IFS=',' read -ra HOSTS <<< "$KAMAL_HOSTS"
 
-  if [ -n "$CONTAINER_NAME" ]; then
-    echo "Found existing container: $CONTAINER_NAME"
-    echo "Stopping container to release database lock..."
-    docker stop "$CONTAINER_NAME"
-    echo "Container stopped successfully"
-  else
-    echo "No existing JAX container found, proceeding with deployment"
-  fi
+  for HOST in "${HOSTS[@]}"; do
+    echo "Checking host: $HOST"
+
+    # Execute docker commands on the remote host via SSH
+    # Use the same SSH configuration that Kamal uses
+    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@"$HOST" bash <<'REMOTE_SCRIPT'
+      # Find any running JAX container
+      CONTAINER_NAME=$(docker ps --filter "label=service=krondor-sites-jax" --filter "label=role=web" --format "{{.Names}}" | head -1)
+
+      if [ -n "$CONTAINER_NAME" ]; then
+        echo "Found existing container: $CONTAINER_NAME"
+        echo "Stopping container to release database lock..."
+        docker stop "$CONTAINER_NAME"
+        echo "Container stopped successfully"
+      else
+        echo "No existing JAX container found on this host"
+      fi
+REMOTE_SCRIPT
+  done
 else
   echo "Skipping pre-deploy hook (not JAX service)"
 fi
