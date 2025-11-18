@@ -8,12 +8,22 @@ require 'sshkit'
 require 'sshkit/dsl'
 include SSHKit::DSL
 
+# Configure SSHKit to use the SSH agent (same as Kamal)
+SSHKit::Backend::Netssh.configure do |ssh|
+  ssh.ssh_options = {
+    auth_methods: ['publickey'],
+    keys_only: true,
+    forward_agent: true,
+    verify_host_key: :never
+  }
+end
+
 # Only run for JAX service
 if ENV['KAMAL_SERVICE']&.include?('jax')
   hosts = ENV['KAMAL_HOSTS']&.split(',') || []
 
   hosts.each do |host|
-    on host, user: 'root' do
+    on "root@#{host}" do
       # Find and stop any running JAX containers
       container_names = capture("docker ps --filter 'label=service=krondor-sites-jax' --filter 'label=role=web' --format '{{.Names}}'", raise_on_non_zero_exit: false).split("\n")
 
