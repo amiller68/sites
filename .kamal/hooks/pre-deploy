@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# Pre-deploy hook for JAX service
+# Stops any running JAX container before deploying new one to prevent
+# database lock conflicts on the shared blobs store
+
+set -e
+
+echo "Running pre-deploy hook for ${KAMAL_SERVICE_NAME:-unknown service}..."
+
+# Only run this for the JAX service
+if [[ "${KAMAL_SERVICE_NAME}" == *"jax"* ]]; then
+  echo "Checking for existing JAX containers..."
+
+  # Find any running JAX container
+  CONTAINER_NAME=$(docker ps --filter "label=service=${KAMAL_SERVICE_NAME}" --filter "label=role=web" --format "{{.Names}}" | head -1)
+
+  if [ -n "$CONTAINER_NAME" ]; then
+    echo "Found existing container: $CONTAINER_NAME"
+    echo "Stopping container to release database lock..."
+    docker stop "$CONTAINER_NAME"
+    echo "Container stopped successfully"
+  else
+    echo "No existing JAX container found, proceeding with deployment"
+  fi
+else
+  echo "Skipping pre-deploy hook (not JAX service)"
+fi
+
+echo "Pre-deploy hook completed"
