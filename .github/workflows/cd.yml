@@ -24,18 +24,21 @@ jobs:
               - 'bin/kamal'
               - 'bin/iac'
               - 'config/deploy/dev.yml'
+              - '.kamal/hooks/**'
               - '.github/workflows/cd.yml'
             art:
               - 'ts/**'
               - 'bin/kamal'
               - 'bin/iac'
               - 'config/deploy/art.yml'
+              - '.kamal/hooks/**'
               - '.github/workflows/cd.yml'
             jax:
               - 'jax/**'
               - 'bin/kamal'
               - 'bin/iac'
               - 'config/deploy/jax.yml'
+              - '.kamal/hooks/**'
               - '.github/workflows/cd.yml'
 
   deploy-dev:
