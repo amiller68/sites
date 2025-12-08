@@ -1,10 +1,10 @@
 <svg width="174.65" height="175.03" viewBox="0 0 174.65 175.03" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(-13.056684,-68.409081)">
-    <rect style="fill:#000000;stroke:#000000;stroke-width:10" width="48.527336" height="48.527336" x="18.056684" y="131.47522" />
-    <rect style="fill:#000000;stroke:#000000;stroke-width:10" width="48.527336" height="48.527336" x="18.034792" y="189.16695" />
-    <rect style="fill:#000000;stroke:#000000;stroke-width:10" width="48.527336" height="48.527336" x="18.077982" y="73.409081" />
-    <rect style="fill:#000000;stroke:#000000;stroke-width:10" width="48.527336" height="48.527336" x="134.11662" y="73.262489" />
-    <rect style="fill:#000000;stroke:#000000;stroke-width:10" width="48.527336" height="48.527336" x="134.17912" y="189.9072" />
-    <rect style="fill:#000000;stroke:#000000;stroke-width:10" width="48.527336" height="48.527336" x="76.062668" y="131.47395" />
+    <rect style="fill:currentColor;stroke:currentColor;stroke-width:10" width="48.527336" height="48.527336" x="18.056684" y="131.47522" />
+    <rect style="fill:currentColor;stroke:currentColor;stroke-width:10" width="48.527336" height="48.527336" x="18.034792" y="189.16695" />
+    <rect style="fill:currentColor;stroke:currentColor;stroke-width:10" width="48.527336" height="48.527336" x="18.077982" y="73.409081" />
+    <rect style="fill:currentColor;stroke:currentColor;stroke-width:10" width="48.527336" height="48.527336" x="134.11662" y="73.262489" />
+    <rect style="fill:currentColor;stroke:currentColor;stroke-width:10" width="48.527336" height="48.527336" x="134.17912" y="189.9072" />
+    <rect style="fill:currentColor;stroke:currentColor;stroke-width:10" width="48.527336" height="48.527336" x="76.062668" y="131.47395" />
   </g>
 </svg>

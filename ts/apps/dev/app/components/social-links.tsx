@@ -69,7 +69,7 @@ export function SocialLinks({ className = "flex gap-4" }: SocialLinksProps) {
           href={link.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-foreground hover:text-primary transition-all hover:scale-110 inline-block"
+          className="text-muted-foreground hover:text-foreground transition-colors"
           aria-label={link.name}
         >
           {link.icon}

@@ -3,42 +3,80 @@
 @tailwind utilities;
 
 @layer base {
-  /* Light mode - Professional and clean */
+  /* Light mode - Clean and minimal */
   :root {
-    --background: 0 0% 96%;         /* Softer off-white */
-    --foreground: 220 13% 18%;      /* Dark slate */
+    --background: 0 0% 98%;         /* Near white */
+    --foreground: 0 0% 15%;         /* Near black */
 
-    --muted: 220 13% 95%;           /* Light muted background */
-    --muted-foreground: 220 9% 46%; /* Medium gray text */
+    --muted: 0 0% 94%;              /* Light gray */
+    --muted-foreground: 0 0% 45%;   /* Medium gray */
 
-    --card: 0 0% 100%;              /* Pure white cards */
-    --card-foreground: 220 13% 18%; /* Dark text on cards */
+    --card: 0 0% 100%;              /* White */
+    --card-foreground: 0 0% 15%;    /* Near black */
 
-    --popover: 0 0% 100%;           /* White popovers */
-    --popover-foreground: 220 13% 18%; /* Dark text */
+    --popover: 0 0% 100%;           /* White */
+    --popover-foreground: 0 0% 15%; /* Near black */
 
-    --border: 220 13% 91%;          /* Subtle borders */
-    --input: 220 13% 91%;           /* Input borders */
+    --border: 0 0% 88%;             /* Light border */
+    --input: 0 0% 88%;              /* Light input */
 
-    --primary: 262 83% 58%;         /* Purple accent */
-    --primary-foreground: 0 0% 98%; /* Light text on primary */
+    --primary: 0 0% 15%;            /* Near black */
+    --primary-foreground: 0 0% 98%; /* Near white */
 
-    --secondary: 220 13% 95%;       /* Light secondary */
-    --secondary-foreground: 220 9% 46%; /* Medium text */
+    --secondary: 0 0% 94%;          /* Light gray */
+    --secondary-foreground: 0 0% 35%; /* Dark gray */
 
-    --accent: 198 93% 60%;          /* Cyan accent */
-    --accent-foreground: 0 0% 98%;  /* Light text on accent */
+    --accent: 0 0% 94%;             /* Light gray */
+    --accent-foreground: 0 0% 15%;  /* Near black */
 
-    --destructive: 0 84% 60%;       /* Red for errors */
-    --destructive-foreground: 0 0% 98%; /* Light text */
+    --destructive: 0 65% 50%;       /* Muted red */
+    --destructive-foreground: 0 0% 98%;
 
-    --ring: 262 83% 58%;            /* Purple focus ring */
+    --ring: 0 0% 15%;               /* Near black */
 
-    --success: 142 76% 36%;         /* Green for success */
-    --success-foreground: 0 0% 98%; /* Light text */
+    --success: 145 50% 40%;         /* Muted green */
+    --success-foreground: 0 0% 98%;
 
-    --warning: 38 92% 50%;          /* Orange for warnings */
-    --warning-foreground: 0 0% 98%; /* Light text */
+    --warning: 38 70% 50%;          /* Muted orange */
+    --warning-foreground: 0 0% 98%;
+  }
+
+  /* Dark mode - Primary experience */
+  .dark {
+    --background: 0 0% 7%;          /* Very dark */
+    --foreground: 0 0% 87%;         /* Light gray */
+
+    --muted: 0 0% 12%;              /* Dark gray */
+    --muted-foreground: 0 0% 55%;   /* Medium gray */
+
+    --card: 0 0% 10%;               /* Slightly lighter */
+    --card-foreground: 0 0% 87%;    /* Light gray */
+
+    --popover: 0 0% 10%;            /* Slightly lighter */
+    --popover-foreground: 0 0% 87%; /* Light gray */
+
+    --border: 0 0% 18%;             /* Subtle border */
+    --input: 0 0% 18%;              /* Subtle input */
+
+    --primary: 0 0% 87%;            /* Light gray */
+    --primary-foreground: 0 0% 7%;  /* Very dark */
+
+    --secondary: 0 0% 15%;          /* Dark gray */
+    --secondary-foreground: 0 0% 70%; /* Light gray */
+
+    --accent: 0 0% 15%;             /* Dark gray */
+    --accent-foreground: 0 0% 87%;  /* Light gray */
+
+    --destructive: 0 55% 45%;       /* Muted red */
+    --destructive-foreground: 0 0% 98%;
+
+    --ring: 0 0% 87%;               /* Light gray */
+
+    --success: 145 45% 40%;         /* Muted green */
+    --success-foreground: 0 0% 98%;
+
+    --warning: 38 60% 50%;          /* Muted orange */
+    --warning-foreground: 0 0% 98%;
   }
 
   html,
@@ -54,20 +92,11 @@
 }
 
 @layer utilities {
-  .font-roboto-mono {
-    font-family: var(--font-roboto-mono), "Roboto Mono", monospace;
+  .font-sans {
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   }
-  .font-vt323 {
-    font-family: var(--font-vt323), "VT323", monospace;
-  }
-
-  /* Gradient text utility - GRAYSCALE */
-  .gradient-text {
-    @apply bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent;
-  }
-
-  .dark .gradient-text {
-    @apply from-foreground to-muted-foreground;
+  .font-mono {
+    font-family: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
   }
 }
 

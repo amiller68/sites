@@ -64,8 +64,8 @@ const config: Config = {
       },
       // TypeScript app specific extensions
       fontFamily: {
-        'roboto-mono': ['var(--font-roboto-mono)', 'Roboto Mono', 'monospace'],
-        'vt323': ['var(--font-vt323)', 'VT323', 'monospace'],
+        'sans': ['var(--font-inter)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'mono': ['var(--font-mono)', 'JetBrains Mono', 'ui-monospace', 'monospace'],
       },
       borderRadius: {
         lg: "var(--radius)",
