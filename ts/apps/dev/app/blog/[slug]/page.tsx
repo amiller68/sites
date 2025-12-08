@@ -147,31 +147,13 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
 
         <article>
           {/* Header */}
-          <header className="mb-12">
-            {blog.tags && blog.tags.length > 0 && (
-              <div className="mb-4 flex flex-wrap gap-2">
-                {blog.tags.map((tag) => (
-                  <span
-                    key={tag.id}
-                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-muted text-muted-foreground"
-                  >
-                    {tag.name}
-                  </span>
-                ))}
-              </div>
-            )}
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          <header className="mb-10">
+            <h1 className="text-2xl font-medium tracking-tight">
               {blog.title}
             </h1>
 
-            {blog.metaDescription && (
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                {blog.metaDescription}
-              </p>
-            )}
-
             {/* Meta */}
-            <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+            <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
               {blog.authors && blog.authors.length > 0 && (
                 <>
                   <span>
@@ -183,13 +165,25 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
                         })),
                     )}
                   </span>
-                  <span>•</span>
+                  <span>·</span>
                 </>
               )}
               {blog.publishDate && (
                 <span>{formatPublishDate(blog.publishDate)}</span>
               )}
+              {blog.tags && blog.tags.length > 0 && (
+                <>
+                  <span>·</span>
+                  <span>{blog.tags.map((tag) => tag.name).join(", ")}</span>
+                </>
+              )}
             </div>
+
+            {blog.metaDescription && (
+              <p className="mt-4 text-muted-foreground leading-relaxed">
+                {blog.metaDescription}
+              </p>
+            )}
           </header>
 
           {/* Featured Image */}
@@ -207,30 +201,30 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
           )}
 
           {/* Content */}
-          <div className="prose prose-lg dark:prose-invert max-w-none">
+          <div className="max-w-none">
             <BlogContent
               content={blog.content}
               elementClassName={{
-                strong: "font-bold",
+                strong: "font-medium",
                 em: "italic",
-                code: "px-1.5 py-0.5 rounded bg-muted text-sm font-mono",
-                a: "text-primary hover:text-primary/80 underline underline-offset-2 transition-colors",
-                h1: "text-3xl font-bold mb-4 mt-8 leading-tight",
-                h2: "text-2xl font-semibold mb-3 mt-8 leading-tight",
-                h3: "text-xl font-medium mb-3 mt-6 leading-tight",
-                h4: "text-lg font-medium mb-2 mt-4 leading-tight",
-                h5: "text-base font-medium mb-2 mt-3 leading-tight",
-                h6: "text-sm font-medium mb-2 mt-2 leading-tight",
-                p: "mb-4 leading-relaxed text-foreground",
-                ul: "list-disc pl-6 mb-6 space-y-2",
-                ol: "list-decimal pl-6 mb-6 space-y-2",
-                li: "leading-relaxed",
+                code: "px-1 py-0.5 rounded bg-muted text-sm font-mono",
+                a: "underline underline-offset-2 hover:text-foreground transition-colors",
+                h1: "text-xl font-medium mb-4 mt-8",
+                h2: "text-lg font-medium mb-3 mt-8",
+                h3: "text-base font-medium mb-3 mt-6",
+                h4: "text-base font-medium mb-2 mt-4",
+                h5: "text-sm font-medium mb-2 mt-3",
+                h6: "text-sm font-medium mb-2 mt-2",
+                p: "mb-4 leading-relaxed text-foreground/90",
+                ul: "list-disc pl-5 mb-4 space-y-1",
+                ol: "list-decimal pl-5 mb-4 space-y-1",
+                li: "leading-relaxed text-foreground/90",
                 blockquote:
-                  "border-l-4 border-border pl-4 py-2 my-6 italic text-muted-foreground",
+                  "border-l-2 border-border pl-4 py-1 my-4 text-muted-foreground",
                 codeBlock:
-                  "bg-muted p-4 rounded-lg mb-6 mt-4 overflow-x-auto font-mono text-sm border border-border",
-                image: "rounded-lg my-8 w-full",
-                asset: "my-6",
+                  "bg-muted p-4 rounded mb-4 mt-2 overflow-x-auto font-mono text-sm",
+                image: "rounded my-6 w-full",
+                asset: "my-4",
               }}
             />
           </div>

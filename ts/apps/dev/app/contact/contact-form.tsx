@@ -2,14 +2,6 @@
 
 import { useState } from "react";
 import { useContactSubmit } from "@/lib/quotient/client";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@repo/ui";
 
 export function ContactForm() {
   const contactSubmit = useContactSubmit();
@@ -48,97 +40,65 @@ export function ContactForm() {
 
   if (isSubmitted) {
     return (
-      <Card className="max-w-md">
-        <CardContent className="pt-6">
-          <div className="flex items-center gap-3 text-success">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            <span className="font-medium">I&apos;ll be in touch soon.</span>
-          </div>
-        </CardContent>
-      </Card>
+      <p className="text-muted-foreground">Thanks, I&apos;ll be in touch.</p>
     );
   }
 
   return (
-    <Card className="max-w-md">
-      <CardHeader>
-        <CardTitle>Get in touch</CardTitle>
-        <CardDescription>
-          Fill out the form below and I&apos;ll get back to you as soon as
-          possible.
-        </CardDescription>
-      </CardHeader>
-      <form onSubmit={handleSubmit}>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label htmlFor="firstName" className="text-sm font-medium">
-                First name
-              </label>
-              <input
-                id="firstName"
-                type="text"
-                value={formData.firstName}
-                onChange={(e) =>
-                  setFormData({ ...formData, firstName: e.target.value })
-                }
-                className="input"
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="lastName" className="text-sm font-medium">
-                Last name
-              </label>
-              <input
-                id="lastName"
-                type="text"
-                value={formData.lastName}
-                onChange={(e) =>
-                  setFormData({ ...formData, lastName: e.target.value })
-                }
-                className="input"
-              />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium">
-              Email <span className="text-destructive">*</span>
-            </label>
-            <input
-              id="email"
-              type="email"
-              required
-              value={formData.emailAddress}
-              onChange={(e) =>
-                setFormData({ ...formData, emailAddress: e.target.value })
-              }
-              className="input"
-            />
-          </div>
-          {error && <p className="text-destructive text-sm">{error}</p>}
-        </CardContent>
-        <CardFooter>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? "Sending..." : "Send"}
-          </button>
-        </CardFooter>
-      </form>
-    </Card>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-1.5">
+          <label htmlFor="firstName" className="text-sm text-muted-foreground">
+            First name
+          </label>
+          <input
+            id="firstName"
+            type="text"
+            value={formData.firstName}
+            onChange={(e) =>
+              setFormData({ ...formData, firstName: e.target.value })
+            }
+            className="input"
+          />
+        </div>
+        <div className="space-y-1.5">
+          <label htmlFor="lastName" className="text-sm text-muted-foreground">
+            Last name
+          </label>
+          <input
+            id="lastName"
+            type="text"
+            value={formData.lastName}
+            onChange={(e) =>
+              setFormData({ ...formData, lastName: e.target.value })
+            }
+            className="input"
+          />
+        </div>
+      </div>
+      <div className="space-y-1.5">
+        <label htmlFor="email" className="text-sm text-muted-foreground">
+          Email
+        </label>
+        <input
+          id="email"
+          type="email"
+          required
+          value={formData.emailAddress}
+          onChange={(e) =>
+            setFormData({ ...formData, emailAddress: e.target.value })
+          }
+          className="input"
+        />
+      </div>
+      {error && <p className="text-destructive text-sm">{error}</p>}
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="w-full px-4 py-2 text-sm bg-foreground text-background rounded hover:bg-foreground/90 transition-colors disabled:opacity-50"
+      >
+        {isSubmitting ? "sending..." : "send"}
+      </button>
+    </form>
   );
 }
