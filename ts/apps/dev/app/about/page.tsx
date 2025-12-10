@@ -60,10 +60,6 @@ export default function About() {
             </a>
             .
           </p>
-          <p>
-            I move across frontend, backend, and DevOps with ease—Rust to Swift
-            to Solidity to Terraform, whatever gets the job done.
-          </p>
           <p className="text-muted-foreground">
             Want to work together or just say hi? Reach out.
           </p>
