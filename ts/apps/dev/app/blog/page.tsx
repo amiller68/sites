@@ -14,7 +14,8 @@ export default async function BlogPage() {
     const result = await quotientClient.blog.list({
       page: 1,
       limit: 100,
-      statuses: ["ACTIVE"],
+      //@ts-ignore -- quotient broke their enum types
+      statuses: ["PUBLISHED"],
     });
     blogs = result.blogs || [];
   } catch (error) {
