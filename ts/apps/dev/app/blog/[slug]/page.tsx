@@ -17,7 +17,8 @@ export async function generateStaticParams() {
     const result = await quotientClient.blog.list({
       page: 1,
       limit: 100,
-      statuses: ["ACTIVE"],
+      //@ts-ignore -- quotient broke their enum types
+      statuses: ["PUBLISHED"],
     });
 
     return (result.blogs || []).map((blog) => ({
