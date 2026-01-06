@@ -1,22 +1,20 @@
 "use client";
 
-import { Roboto_Mono, VT323 } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ClientProviders } from "@/providers/client-providers";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@repo/ui";
 
-const robotoMono = Roboto_Mono({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-roboto-mono",
+  variable: "--font-inter",
 });
 
-const vt323 = VT323({
-  weight: "400",
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-vt323",
+  variable: "--font-mono",
 });
 
 type NavItem = {
@@ -32,8 +30,8 @@ const navItems: NavItem[] = [
   { href: "/blog", label: "blog" },
   { href: "/contact", label: "contact" },
   {
-    href: process.env.NEXT_PUBLIC_MISC_APP_URL || "http://localhost:3001",
-    label: "misc",
+    href: "https://jax.krondor.org",
+    label: "jax",
     external: true,
   },
 ];
@@ -50,16 +48,80 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${robotoMono.variable} ${vt323.variable}`}
+      className={`${inter.variable} ${jetbrainsMono.variable} dark`}
     >
-      <body className="font-roboto-mono">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var theme = localStorage.getItem('geney-theme') || 'dark';
+                if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className="font-sans">
         <ClientProviders>
           <div className="flex flex-col min-h-screen max-w-4xl mx-auto px-6">
             {/* Navigation */}
             <nav className="w-full py-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4 sm:gap-0">
-                <Link href="/" className="hover:opacity-80 transition-opacity">
-                  <Image src="/icon.svg" alt="Logo" width={32} height={32} />
+                <Link
+                  href="/"
+                  className="text-foreground hover:opacity-80 transition-opacity"
+                >
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 174.65 175.03"
+                    fill="currentColor"
+                    aria-label="Logo"
+                  >
+                    <g transform="translate(-13.056684,-68.409081)">
+                      <rect
+                        width="48.527336"
+                        height="48.527336"
+                        x="18.056684"
+                        y="131.47522"
+                      />
+                      <rect
+                        width="48.527336"
+                        height="48.527336"
+                        x="18.034792"
+                        y="189.16695"
+                      />
+                      <rect
+                        width="48.527336"
+                        height="48.527336"
+                        x="18.077982"
+                        y="73.409081"
+                      />
+                      <rect
+                        width="48.527336"
+                        height="48.527336"
+                        x="134.11662"
+                        y="73.262489"
+                      />
+                      <rect
+                        width="48.527336"
+                        height="48.527336"
+                        x="134.17912"
+                        y="189.9072"
+                      />
+                      <rect
+                        width="48.527336"
+                        height="48.527336"
+                        x="76.062668"
+                        y="131.47395"
+                      />
+                    </g>
+                  </svg>
                 </Link>
                 <ul className="flex gap-3 sm:gap-6">
                   {navItems.map((item) => (
@@ -67,7 +129,7 @@ export default function RootLayout({
                       {item.external ? (
                         <a
                           href={item.href}
-                          className="text-sm font-roboto-mono transition-colors hover:text-primary text-foreground"
+                          className="text-sm transition-colors hover:text-primary text-muted-foreground"
                         >
                           {item.label}
                         </a>
@@ -75,10 +137,10 @@ export default function RootLayout({
                         <Link
                           href={item.href}
                           className={cn(
-                            "text-sm font-roboto-mono transition-colors hover:text-primary",
+                            "text-sm transition-colors hover:text-primary",
                             pathname === item.href
-                              ? "text-primary font-semibold"
-                              : "text-foreground",
+                              ? "text-primary"
+                              : "text-muted-foreground",
                           )}
                         >
                           {item.label}

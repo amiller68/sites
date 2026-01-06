@@ -1,19 +1,17 @@
 import Link from "next/link";
-import { TypingHeader } from "@repo/ui";
 
 export default function NotFound() {
   return (
     <div className="flex justify-center items-center min-h-[80vh]">
-      <div className="max-w-[50ch] flex flex-col items-center text-center">
-        <TypingHeader text="> 404" size="text-6xl" />
-        <div className="mt-8 text-xl leading-relaxed">
-          <p className="mb-8 text-muted-foreground">
-            looks like you&apos;ve wandered off the map...
-          </p>
-          <Link href="/" className="btn-primary inline-block">
-            take me home
-          </Link>
-        </div>
+      <div className="flex flex-col items-center text-center">
+        <h1 className="text-4xl font-medium">404</h1>
+        <p className="mt-4 text-muted-foreground">page not found</p>
+        <Link
+          href="/"
+          className="mt-6 text-sm underline underline-offset-2 hover:text-foreground transition-colors"
+        >
+          go home
+        </Link>
       </div>
     </div>
   );

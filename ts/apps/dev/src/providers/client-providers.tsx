@@ -14,22 +14,19 @@ export function ClientProviders({ children }: ClientProvidersProps) {
     console.error(
       "NEXT_PUBLIC_QUOTIENT_API_KEY is not set. Quotient features will not work.",
     );
-    return (
-      <ThemeProvider defaultTheme="light" storageKey="geney-theme">
-        {children}
-      </ThemeProvider>
-    );
   }
 
+  // Always wrap with QuotientProvider to avoid hook errors
+  // API calls will fail at runtime if key is missing
   return (
     <QuotientProvider
       clientOptions={{
-        apiKey: quotientApiKey,
+        apiKey: quotientApiKey || "missing-key",
         baseUrl: "https://www.getquotient.ai",
       }}
-      autoTrackPageViews={true}
+      autoTrackPageViews={!!quotientApiKey}
     >
-      <ThemeProvider defaultTheme="light" storageKey="geney-theme">
+      <ThemeProvider defaultTheme="dark" storageKey="geney-theme">
         {children}
       </ThemeProvider>
     </QuotientProvider>

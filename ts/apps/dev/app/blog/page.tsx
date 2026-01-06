@@ -1,7 +1,6 @@
-import { TypingHeader } from "@repo/ui";
 import Link from "next/link";
 import { quotientClient } from "@/services";
-import { formatPublishDate, formatAuthorString } from "@/lib/blog";
+import { formatPublishDate } from "@/lib/blog";
 import type { Blog } from "@/lib/quotient/types";
 import { Subscribe } from "../components/subscribe";
 
@@ -25,8 +24,8 @@ export default async function BlogPage() {
 
   return (
     <div className="flex justify-center items-start min-h-[80vh] py-12">
-      <div className="max-w-3xl w-full">
-        <TypingHeader text="> blog" size="text-4xl" />
+      <div className="max-w-2xl w-full">
+        <h1 className="text-2xl font-medium tracking-tight">blog</h1>
 
         <div className="mt-6">
           <Subscribe />
@@ -35,19 +34,16 @@ export default async function BlogPage() {
         {blogs.length === 0 ? (
           <p className="mt-8 text-muted-foreground">no posts yet...</p>
         ) : (
-          <div className="mt-8 space-y-8">
+          <div className="mt-8 space-y-6">
             {blogs.map((blog) => (
-              <article
-                key={blog.slug}
-                className="border-b border-border pb-8 last:border-0"
-              >
+              <article key={blog.slug}>
                 <Link href={`/blog/${blog.slug}`} className="group block">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
-                    <h2 className="text-2xl font-semibold group-hover:text-primary transition-colors">
+                  <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+                    <h2 className="text-base group-hover:text-foreground text-muted-foreground transition-colors">
                       {blog.title}
                     </h2>
                     {blog.publishDate && (
-                      <span className="text-sm text-muted-foreground whitespace-nowrap">
+                      <span className="text-sm text-muted-foreground/60 whitespace-nowrap">
                         {formatPublishDate(blog.publishDate)}
                       </span>
                     )}
