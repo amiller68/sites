@@ -1,0 +1,854 @@
+/* ============================================
+   Alex Plain Music - 90s AOL Portal Aesthetic
+   ============================================ */
+
+/* CSS Variables - 90s AOL Palette */
+:root {
+    /* Windows 95 / AOL colors */
+    --background: 0 0% 75%;           /* Classic gray */
+    --foreground: 240 100% 25%;       /* Dark navy */
+    --muted: 0 0% 65%;
+    --muted-foreground: 0 0% 20%;
+    --border: 0 0% 50%;
+    --card: 0 0% 92%;
+    --primary: 240 100% 50%;          /* Electric blue */
+
+    /* AOL accent colors */
+    --aol-blue: 216 100% 50%;         /* AOL keyword blue */
+    --aol-yellow: 51 100% 50%;        /* Bright yellow */
+    --aol-pink: 330 100% 71%;         /* Hot pink */
+    --aol-green: 120 61% 40%;         /* Lime green */
+    --aol-red: 0 100% 50%;            /* Warning red */
+
+    /* Beveled border colors */
+    --bevel-light: 0 0% 100%;
+    --bevel-dark: 0 0% 40%;
+    --bevel-shadow: 0 0% 25%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body with tiled background */
+body {
+    background-color: hsl(var(--background));
+    background-image:
+        linear-gradient(45deg, hsl(0 0% 70%) 25%, transparent 25%),
+        linear-gradient(-45deg, hsl(0 0% 70%) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, hsl(0 0% 70%) 75%),
+        linear-gradient(-45deg, transparent 75%, hsl(0 0% 70%) 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    color: hsl(var(--foreground));
+    line-height: 1.6;
+    font-family: 'Comic Sans MS', 'Chalkboard', cursive;
+    font-weight: 500;
+    min-height: 100vh;
+}
+
+/* ============================================
+   90s Typeface Styles
+   ============================================ */
+
+h1, h2, h3, .typewriter {
+    font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.comic {
+    font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive;
+}
+
+/* ============================================
+   Beveled Panel Classes (Windows 95 style)
+   ============================================ */
+
+.panel-raised {
+    background: hsl(var(--card));
+    border: 3px solid;
+    border-color: hsl(var(--bevel-light)) hsl(var(--bevel-shadow)) hsl(var(--bevel-shadow)) hsl(var(--bevel-light));
+}
+
+.panel-inset {
+    background: hsl(var(--card));
+    border: 3px solid;
+    border-color: hsl(var(--bevel-shadow)) hsl(var(--bevel-light)) hsl(var(--bevel-light)) hsl(var(--bevel-shadow));
+    box-shadow:
+        inset 1px 1px 3px hsl(var(--bevel-dark)),
+        inset -1px -1px 0 hsl(var(--bevel-light));
+}
+
+/* Windows 95 style button */
+.btn-90s {
+    font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive;
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+    background: hsl(var(--card));
+    border: 3px solid;
+    border-color: hsl(var(--bevel-light)) hsl(var(--bevel-shadow)) hsl(var(--bevel-shadow)) hsl(var(--bevel-light));
+    cursor: pointer;
+    color: hsl(var(--foreground));
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-90s:hover {
+    background: hsl(var(--muted));
+}
+
+.btn-90s:active {
+    border-color: hsl(var(--bevel-shadow)) hsl(var(--bevel-light)) hsl(var(--bevel-light)) hsl(var(--bevel-shadow));
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+
+@keyframes marquee {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
+}
+
+@keyframes blink-90s {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rainbow {
+    0% { color: hsl(var(--aol-red)); }
+    25% { color: hsl(var(--aol-yellow)); }
+    50% { color: hsl(var(--aol-green)); }
+    75% { color: hsl(var(--aol-blue)); }
+    100% { color: hsl(var(--aol-pink)); }
+}
+
+.animate-marquee {
+    display: inline-block;
+    white-space: nowrap;
+    animation: marquee 20s linear infinite;
+}
+
+.animate-blink, .blink {
+    animation: blink-90s 1s step-end infinite;
+}
+
+.animate-rainbow {
+    animation: rainbow 3s linear infinite;
+}
+
+/* ============================================
+   Marquee Bar
+   ============================================ */
+
+.marquee-bar {
+    background: hsl(var(--aol-blue));
+    color: hsl(var(--aol-yellow));
+    padding: 0.5rem;
+    overflow: hidden;
+    font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.marquee-bar span {
+    display: inline-block;
+    animation: marquee 15s linear infinite;
+}
+
+.marquee-bar .animate-marquee {
+    padding: 0 2rem;
+}
+
+/* ============================================
+   Under Construction Banner
+   ============================================ */
+
+.under-construction {
+    background: repeating-linear-gradient(
+        45deg,
+        hsl(var(--aol-yellow)),
+        hsl(var(--aol-yellow)) 20px,
+        hsl(0 0% 10%) 20px,
+        hsl(0 0% 10%) 40px
+    );
+    padding: 0.5rem 1rem;
+    text-align: center;
+    font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive;
+    font-weight: 700;
+    color: hsl(0 0% 10%);
+}
+
+.under-construction span {
+    background: hsl(var(--aol-yellow));
+    padding: 0.25rem 0.5rem;
+}
+
+.under-construction .comic {
+    background: hsl(var(--aol-yellow));
+    padding: 0.25rem 0.5rem;
+}
+
+/* ============================================
+   Layout
+   ============================================ */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 3rem;
+}
+
+/* ============================================
+   Hero Section
+   ============================================ */
+
+.hero {
+    padding: 2rem 0 0 0;
+    margin-bottom: 0;
+}
+
+.hero-content {
+    padding: 2rem;
+    max-width: 700px;
+    margin-bottom: 2rem;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: hsl(var(--aol-blue));
+}
+
+.hero-text {
+    font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive;
+    font-size: 1rem;
+    line-height: 1.8;
+    white-space: pre-line;
+    font-weight: 500;
+}
+
+/* ============================================
+   Tabs
+   ============================================ */
+
+.tabs {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 0.25rem;
+    max-width: 500px;
+    margin-bottom: -3px;
+}
+
+.tab {
+    font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive;
+    padding: 0.75rem 1.5rem;
+    background: hsl(var(--card));
+    border: 3px solid;
+    border-color: hsl(var(--bevel-light)) hsl(var(--bevel-shadow)) hsl(var(--bevel-shadow)) hsl(var(--bevel-light));
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: hsl(var(--muted-foreground));
+    transition: all 0.2s;
+    position: relative;
+    top: 3px;
+}
+
+.tab:hover {
+    color: hsl(var(--foreground));
+    background: hsl(var(--muted));
+}
+
+.tab.active {
+    color: hsl(var(--aol-blue));
+    background: hsl(var(--card));
+    font-weight: 700;
+    top: 0;
+    padding-bottom: calc(0.75rem + 3px);
+    z-index: 10;
+}
+
+/* ============================================
+   Tracks Section
+   ============================================ */
+
+.tracks-section {
+    margin-top: -3px;
+}
+
+.tracks-panel {
+    padding: 2rem;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.section-description {
+    font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+    padding: 1rem;
+    background: hsl(var(--aol-yellow) / 0.2);
+    border-left: 4px solid hsl(var(--aol-yellow));
+}
+
+/* ============================================
+   Track List
+   ============================================ */
+
+.track-list {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.track {
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.track:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        inset 1px 1px 0 hsl(var(--bevel-light)),
+        inset -1px -1px 0 hsl(var(--bevel-dark)),
+        6px 6px 0 hsl(var(--bevel-shadow));
+}
+
+.track-name {
+    font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: hsl(var(--aol-blue));
+}
+
+/* ============================================
+   Release Card - Jewel Case
+   ============================================ */
+
+.release {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.release-art {
+    width: 150px;
+    height: 150px;
+    border: 3px solid;
+    border-color: hsl(var(--bevel-light)) hsl(var(--bevel-shadow))
+                  hsl(var(--bevel-shadow)) hsl(var(--bevel-light));
+    background: hsl(0 0% 20%);
+    flex-shrink: 0;
+    position: relative;
+}
+
+.release-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.release-art-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.8rem;
+}
+
+.release-play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: hsl(var(--card) / 0.9);
+    color: hsl(var(--aol-blue));
+    border: 3px solid;
+    border-color: hsl(var(--bevel-light)) hsl(var(--bevel-shadow))
+                  hsl(var(--bevel-shadow)) hsl(var(--bevel-light));
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.release-play-btn:hover {
+    background: hsl(var(--card));
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.release-play-btn:active {
+    border-color: hsl(var(--bevel-shadow)) hsl(var(--bevel-light))
+                  hsl(var(--bevel-light)) hsl(var(--bevel-shadow));
+}
+
+.release-play-btn.playing {
+    background: hsl(var(--aol-blue));
+    color: white;
+}
+
+.release-play-btn svg {
+    width: 28px;
+    height: 28px;
+}
+
+.release-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.release-info h3 {
+    font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive;
+    color: hsl(var(--aol-blue));
+    font-size: 1.25rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.release-meta {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.release-tracks {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.release-track {
+    display: grid;
+    grid-template-columns: 1.5rem 1fr auto;
+    grid-template-rows: auto auto;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: hsl(var(--card));
+    border: 2px solid;
+    border-color: hsl(var(--bevel-shadow)) hsl(var(--bevel-light))
+                  hsl(var(--bevel-light)) hsl(var(--bevel-shadow));
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.release-track:hover {
+    background: hsl(var(--muted));
+}
+
+.release-track.active {
+    background: hsl(var(--aol-blue) / 0.2);
+    border-color: hsl(var(--aol-blue));
+}
+
+.release-track.active .release-track-name {
+    color: hsl(var(--aol-blue));
+}
+
+.release-track-number {
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-size: 0.85rem;
+    color: hsl(var(--muted-foreground));
+    text-align: right;
+}
+
+.release-track-name {
+    font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: hsl(var(--foreground));
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.release-track-time {
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-size: 0.75rem;
+    color: hsl(var(--muted-foreground));
+    min-width: 80px;
+    text-align: right;
+}
+
+.release-track-progress {
+    grid-column: 1 / -1;
+    height: 6px;
+    background: hsl(0 0% 30%);
+    border: 1px solid;
+    border-color: hsl(var(--bevel-shadow)) hsl(var(--bevel-light))
+                  hsl(var(--bevel-light)) hsl(var(--bevel-shadow));
+    display: none;
+}
+
+.release-track.active .release-track-progress {
+    display: block;
+}
+
+.release-track-progress-bar {
+    height: 100%;
+    background: linear-gradient(to right, hsl(var(--aol-blue)), hsl(330 100% 71%));
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+/* ============================================
+   Custom Audio Player
+   ============================================ */
+
+.custom-player {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.play-btn {
+    width: 40px;
+    height: 40px;
+    background: hsl(var(--card));
+    color: hsl(var(--aol-blue));
+    border: 3px solid;
+    border-color: hsl(var(--bevel-light)) hsl(var(--bevel-shadow)) hsl(var(--bevel-shadow)) hsl(var(--bevel-light));
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+
+.play-btn:hover {
+    background: hsl(var(--muted));
+}
+
+.play-btn:active {
+    border-color: hsl(var(--bevel-shadow)) hsl(var(--bevel-light)) hsl(var(--bevel-light)) hsl(var(--bevel-shadow));
+}
+
+.play-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.seek-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.time {
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: hsl(var(--muted-foreground));
+    min-width: 40px;
+}
+
+.seek-bar {
+    flex: 1;
+    height: 12px;
+    background: hsl(0 0% 30%);
+    cursor: pointer;
+    position: relative;
+    border: 2px solid;
+    border-color: hsl(var(--bevel-shadow)) hsl(var(--bevel-light)) hsl(var(--bevel-light)) hsl(var(--bevel-shadow));
+}
+
+.seek-bar-progress {
+    height: 100%;
+    background: linear-gradient(to right, hsl(var(--aol-blue)), hsl(330 100% 71%));
+    width: 0%;
+}
+
+/* Hide native audio element */
+audio {
+    display: none;
+}
+
+/* ============================================
+   Webring
+   ============================================ */
+
+.webring {
+    max-width: 500px;
+    margin: 3rem auto;
+    padding: 1.5rem;
+    text-align: center;
+    font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive;
+}
+
+.webring p {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.webring-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* ============================================
+   Hit Counter
+   ============================================ */
+
+.hit-counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.counter-digits {
+    display: flex;
+    padding: 0.25rem;
+    gap: 2px;
+}
+
+.digit {
+    background: hsl(0 0% 5%);
+    color: hsl(var(--aol-green));
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.25rem 0.5rem;
+    min-width: 1.5rem;
+    text-align: center;
+}
+
+/* ============================================
+   Loading & Error States
+   ============================================ */
+
+.loading {
+    font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive;
+    text-align: center;
+    padding: 2rem;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.9rem;
+}
+
+.error {
+    font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive;
+    text-align: center;
+    padding: 2rem;
+    color: hsl(var(--aol-red));
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+
+footer {
+    padding: 2rem 0;
+    text-align: center;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.85rem;
+    font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive;
+}
+
+.copyright {
+    font-size: 0.85rem;
+    color: hsl(var(--muted-foreground));
+}
+
+/* ============================================
+   Social Links
+   ============================================ */
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: hsl(var(--aol-blue));
+    text-decoration: none;
+    transition: all 0.2s;
+    padding: 0.5rem;
+    background: hsl(var(--card));
+    border: 3px solid;
+    border-color: hsl(var(--bevel-light)) hsl(var(--bevel-shadow)) hsl(var(--bevel-shadow)) hsl(var(--bevel-light));
+}
+
+.social-link:hover {
+    background: hsl(var(--muted));
+    color: hsl(var(--aol-pink));
+}
+
+.social-link:active {
+    border-color: hsl(var(--bevel-shadow)) hsl(var(--bevel-light)) hsl(var(--bevel-light)) hsl(var(--bevel-shadow));
+}
+
+.social-link svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   Responsive Styles
+   ============================================ */
+
+@media (max-width: 968px) {
+    .container {
+        padding: 0 2rem;
+    }
+
+    .hero {
+        padding: 2rem 0 0 0;
+        margin-bottom: 0;
+    }
+
+    .hero-layout {
+        flex-direction: column-reverse;
+        gap: 1.5rem;
+    }
+
+    .hero-background {
+        width: 100%;
+        height: 250px;
+    }
+
+    .hero-content {
+        padding: 1.5rem;
+        max-width: 100%;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    /* Releases - stack on tablet/mobile */
+    .release {
+        display: block;
+        padding: 1rem;
+    }
+
+    .release-art {
+        width: 180px;
+        height: 180px;
+        margin: 0 auto 0.5rem auto;
+    }
+
+    .release-info {
+        text-align: center;
+    }
+
+    .release-info h3 {
+        margin: 0 0 0.5rem 0;
+    }
+
+    .release-meta {
+        margin-bottom: 0.75rem;
+    }
+
+    .tabs {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .track:hover {
+        transform: translateY(-1px);
+    }
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .hero-background {
+        height: 200px;
+    }
+
+    .hero-content {
+        padding: 1rem;
+    }
+
+    .hero h1 {
+        font-size: 1.75rem;
+    }
+
+    .track {
+        padding: 1rem;
+    }
+
+    .player-controls {
+        gap: 0.5rem;
+    }
+
+    .play-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .time {
+        font-size: 0.7rem;
+        min-width: 40px;
+        padding: 0.2rem 0.3rem;
+    }
+
+    .under-construction {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+
+    .webring-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-90s {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+}

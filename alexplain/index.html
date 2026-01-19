@@ -11,7 +11,7 @@
     <meta property="og:title" content="alex plain - music collection">
     <meta property="og:description" content="i like to make music! find a mix of roughs, jams, and at-home recordings from alex plain.">
     <meta property="og:image" content="https://jax.krondor.org/gw/f45fe1b0-8172-4619-b6c6-17518058ff16/DSC_0150.jpeg">
-    <meta property="og:url" content="https://alexplain.me">
+    <meta property="og:url" content="https://alexplain.krondor.org">
     <meta property="og:site_name" content="alex plain music">
 
     <!-- Twitter Card Meta Tags -->
@@ -20,451 +20,36 @@
     <meta name="twitter:description" content="i like to make music! find a mix of roughs, jams, and at-home recordings from alex plain.">
     <meta name="twitter:image" content="https://jax.krondor.org/gw/f45fe1b0-8172-4619-b6c6-17518058ff16/DSC_0150.jpeg">
 
-    <!-- Inter font -->
-    <link rel="preconnect" href="https://rsms.me/" />
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-
-    <!-- Franken UI -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/franken-ui@next/dist/css/core.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/franken-ui@next/dist/css/utilities.min.css" />
-
-    <style>
-        :root {
-            font-family: Inter, sans-serif;
-            font-feature-settings: "liga" 1, "calt" 1;
-
-            --background: 0 0% 100%;
-            --foreground: 0 0% 0%;
-            --muted: 0 0% 95%;
-            --muted-foreground: 0 0% 40%;
-            --border: 0 0% 85%;
-            --card: 0 0% 100%;
-            --primary: 0 0% 0%;
-        }
-
-        @supports (font-variation-settings: normal) {
-            :root {
-                font-family: InterVariable, sans-serif;
-            }
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: hsl(var(--background));
-            color: hsl(var(--foreground));
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            font-weight: 600;
-        }
-
-        /* Typewriter aesthetic */
-        h1, h2, h3, .typewriter {
-            font-family: 'Courier New', 'Monaco', monospace;
-            font-weight: 900;
-            letter-spacing: 0.5px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 3rem;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 5rem 0;
-            margin-bottom: 3rem;
-        }
-
-        .hero-layout {
-            display: flex;
-            align-items: flex-start;
-            gap: 3rem;
-            margin-bottom: 2rem;
-        }
-
-        .hero-background {
-            flex-shrink: 0;
-            width: 350px;
-            height: 350px;
-            background-image: url('https://jax.krondor.org/gw/f45fe1b0-8172-4619-b6c6-17518058ff16/DSC_0150.jpeg');
-            background-size: cover;
-            background-position: center;
-            border: 2px solid hsl(var(--border));
-        }
-
-        .hero-content {
-            background: white;
-            padding: 3rem 4rem;
-            max-width: 600px;
-            border: 2px solid hsl(var(--foreground));
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 2rem;
-            letter-spacing: 1px;
-        }
-
-        .hero-text {
-            font-family: 'Courier New', 'Monaco', monospace;
-            font-size: 1rem;
-            line-height: 2;
-            white-space: pre-line;
-            font-weight: 600;
-        }
-
-        /* Tabs */
-        .tabs {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            gap: 0;
-            border-bottom: 2px solid hsl(var(--foreground));
-            max-width: 500px;
-        }
-
-        .tab {
-            font-family: 'Courier New', 'Monaco', monospace;
-            padding: 1rem 2rem;
-            background: white;
-            border: 2px solid hsl(var(--foreground));
-            border-bottom: 2px solid hsl(var(--foreground));
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 700;
-            color: hsl(var(--muted-foreground));
-            transition: all 0.2s;
-            margin-right: -2px;
-            margin-bottom: -2px;
-        }
-
-        .tab:hover {
-            color: hsl(var(--foreground));
-            background: hsl(var(--muted));
-        }
-
-        .tab.active {
-            color: hsl(var(--foreground));
-            background: white;
-            font-weight: 700;
-            position: relative;
-            border-bottom-color: white;
-        }
-
-        .tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: white;
-        }
-
-        /* Track Section */
-        .tracks-section {
-            margin-top: 1rem;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .section-description {
-            font-family: 'Courier New', 'Monaco', monospace;
-            color: hsl(var(--muted-foreground));
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            line-height: 2;
-            padding-left: 1rem;
-            border-left: 3px solid hsl(var(--border));
-        }
-
-        /* Track List */
-        .track-list {
-            display: grid;
-            gap: 2rem;
-        }
-
-        .track {
-            padding: 2rem;
-            background: hsl(var(--card));
-            border: 1px solid hsl(var(--border));
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .track::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: hsl(var(--foreground));
-            transform: scaleY(0);
-            transition: transform 0.3s ease;
-        }
-
-        .track:hover {
-            border-color: hsl(var(--foreground));
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transform: translateX(8px);
-        }
-
-        .track:hover::before {
-            transform: scaleY(1);
-        }
-
-        .track-name {
-            font-family: 'Courier New', 'Monaco', monospace;
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 1.25rem;
-            color: hsl(var(--foreground));
-        }
-
-        /* Custom Audio Player */
-        .custom-player {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .player-controls {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .play-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: hsl(var(--foreground));
-            color: hsl(var(--background));
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: all 0.2s;
-        }
-
-        .play-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .play-btn svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .seek-container {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .time {
-            font-family: 'Courier New', 'Monaco', monospace;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: hsl(var(--muted-foreground));
-            min-width: 45px;
-        }
-
-        .seek-bar {
-            flex: 1;
-            height: 4px;
-            background: hsl(var(--muted));
-            border-radius: 2px;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .seek-bar-progress {
-            height: 100%;
-            background: hsl(var(--foreground));
-            border-radius: 2px;
-            width: 0%;
-            transition: width 0.1s linear;
-        }
-
-        /* Hide native audio element */
-        audio {
-            display: none;
-        }
-
-        /* Loading State */
-        .loading {
-            font-family: 'Courier New', 'Monaco', monospace;
-            text-align: center;
-            padding: 2rem;
-            color: hsl(var(--muted-foreground));
-            font-size: 0.9rem;
-        }
-
-        .error {
-            font-family: 'Courier New', 'Monaco', monospace;
-            text-align: center;
-            padding: 2rem;
-            color: #d32f2f;
-            font-size: 0.9rem;
-        }
-
-        /* Footer */
-        footer {
-            padding: 3rem 0;
-            text-align: center;
-            color: hsl(var(--muted-foreground));
-            font-size: 0.85rem;
-            font-family: 'Courier New', 'Monaco', monospace;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: hsl(var(--muted-foreground));
-            text-decoration: none;
-            transition: all 0.2s;
-            padding: 0.5rem;
-            border: 1px solid transparent;
-            opacity: 0.6;
-        }
-
-        .social-link:hover {
-            color: hsl(var(--foreground));
-            opacity: 1;
-        }
-
-        .social-link svg {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-        }
-
-        /* Responsive */
-        @media (max-width: 968px) {
-            .container {
-                padding: 0 2rem;
-            }
-
-            .hero {
-                padding: 3rem 0;
-                margin-bottom: 3rem;
-            }
-
-            .hero-layout {
-                flex-direction: column-reverse;
-                gap: 2rem;
-            }
-
-            .hero-background {
-                width: 100%;
-                height: 300px;
-            }
-
-            .hero-content {
-                padding: 2.5rem 3rem;
-                max-width: 100%;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .tabs {
-                max-width: 100%;
-                overflow-x: auto;
-            }
-
-            .track:hover {
-                transform: translateX(4px);
-            }
-        }
-
-        @media (max-width: 640px) {
-            .container {
-                padding: 0 1rem;
-            }
-
-            .hero-background {
-                height: 250px;
-            }
-
-            .hero-content {
-                padding: 2rem;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .track {
-                padding: 1.5rem;
-            }
-
-            .player-controls {
-                gap: 0.75rem;
-            }
-
-            .play-btn {
-                width: 32px;
-                height: 32px;
-            }
-        }
-    </style>
-
-    <script type="module" src="https://cdn.jsdelivr.net/npm/franken-ui@next/dist/js/core.iife.js"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <!-- Hero Section with background -->
+    <!-- Marquee -->
+    <div class="marquee-bar">
+        <span>welcome to alex plain's music page! ★ you've got mail! ★ best viewed in netscape navigator ★ last updated: 1998 ★</span>
+    </div>
+
+    <!-- Under Construction -->
+    <div class="under-construction">
+        <span class="blink">🚧</span>
+        <span>under construction</span>
+        <span class="blink">🚧</span>
+    </div>
+
+    <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <div class="hero-layout">
-                <div class="hero-content">
+            <div class="hero-content panel-raised">
                 <h1>hi there!</h1>
-                <div class="hero-text">i like to make music! i mostly play live either at open mics or in tompkins sq park, but you can find a mix of stuff I've recorded in this collection:
+                <div class="hero-text">i like to make music! i mostly play live either at open mics or in tompkins sq park, but you can find a mix of stuff i've recorded in this collection:
 
 happy listening!
 
 -- alex.</div>
-                </div>
-                <div class="hero-background"></div>
             </div>
 
             <div class="social-links" style="max-width: 500px; justify-content: flex-start; margin-bottom: 2rem; gap: 1rem;">
-                <a href="https://www.instagram.com/alexplain_me/" target="_blank" rel="noopener noreferrer" class="social-link" title="instagram">
+                <a href="https://www.instagram.com/alexplain_me" target="_blank" rel="noopener noreferrer" class="social-link" title="instagram">
                     <svg fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                     </svg>
@@ -477,17 +62,19 @@ happy listening!
             </div>
 
             <div class="tabs">
-                <button class="tab active" onclick="switchTab('roughs')">roughs</button>
+                <button class="tab active" onclick="switchTab('releases')">releases</button>
+                <button class="tab" onclick="switchTab('roughs')">roughs</button>
                 <button class="tab" onclick="switchTab('jams')">jams</button>
                 <button class="tab" onclick="switchTab('at-home')">at-home</button>
             </div>
         </div>
     </section>
 
-    <!-- Tracks Section (BELOW hero) -->
+    <!-- Tracks Section -->
     <div class="container tracks-section">
+        <div class="tracks-panel panel-raised">
         <!-- Roughs Tab -->
-        <div class="tab-content active" id="roughs-content">
+        <div class="tab-content" id="roughs-content">
             <p class="section-description">as close i get to a final product. expect some covers mixed with originals, but the main commonality is the use of a DAW to make something a lil more produced.</p>
             <div class="track-list" id="roughs-tracks">
                 <div class="loading">loading tracks...</div>
@@ -509,6 +96,15 @@ happy listening!
                 <div class="loading">loading tracks...</div>
             </div>
         </div>
+
+        <!-- Releases Tab -->
+        <div class="tab-content active" id="releases-content">
+            <p class="section-description">albums and eps</p>
+            <div id="releases-container">
+                <div class="loading">loading releases...</div>
+            </div>
+        </div>
+        </div>
     </div>
 
     <footer>
@@ -517,209 +113,6 @@ happy listening!
         </div>
     </footer>
 
-    <script>
-        // Configuration
-        const BUCKET_ID = 'f5a969c4-a3e2-43bc-9ab2-0e6343006d00';
-        const GATEWAY_URL = `https://jax.krondor.org/gw/${BUCKET_ID}`;
-
-        // Music directories
-        const directories = [
-            { id: 'roughs', path: 'roughs' },
-            { id: 'jams', path: 'jams' },
-            { id: 'at-home', path: 'at-home' }
-        ];
-
-        // Tab switching
-        function switchTab(tabName) {
-            // Update tab buttons
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            // Update tab content
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById(`${tabName}-content`).classList.add('active');
-        }
-
-        // Format time in mm:ss
-        function formatTime(seconds) {
-            if (isNaN(seconds)) return '0:00';
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${mins}:${secs.toString().padStart(2, '0')}`;
-        }
-
-        // Format track name for display
-        function formatTrackName(filename) {
-            // Remove file extension
-            let name = filename.replace(/\.(mp3|m4a)$/i, '');
-
-            // Remove timestamp patterns like "10!25!25, 7.31 PM"
-            name = name.replace(/\s*-\s*\d+!\d+!\d+,\s*\d+\.\d+\s*(AM|PM)/gi, '');
-
-            return name;
-        }
-
-        // Create custom audio player
-        function createCustomPlayer(audioSrc) {
-            const audio = document.createElement('audio');
-            audio.preload = 'metadata';
-            audio.src = audioSrc;
-
-            const player = document.createElement('div');
-            player.className = 'custom-player';
-
-            const controls = document.createElement('div');
-            controls.className = 'player-controls';
-
-            // Play/Pause button
-            const playBtn = document.createElement('button');
-            playBtn.className = 'play-btn';
-            playBtn.innerHTML = `<svg fill="currentColor" viewBox="0 0 16 16"><path d="M5 3.5v9l7-4.5z"/></svg>`;
-            playBtn.onclick = () => togglePlay(audio, playBtn);
-
-            // Seek container
-            const seekContainer = document.createElement('div');
-            seekContainer.className = 'seek-container';
-
-            const currentTime = document.createElement('div');
-            currentTime.className = 'time';
-            currentTime.textContent = '0:00';
-
-            const seekBar = document.createElement('div');
-            seekBar.className = 'seek-bar';
-            seekBar.onclick = (e) => seek(e, audio, seekBar);
-
-            const seekBarProgress = document.createElement('div');
-            seekBarProgress.className = 'seek-bar-progress';
-            seekBar.appendChild(seekBarProgress);
-
-            const duration = document.createElement('div');
-            duration.className = 'time';
-            duration.textContent = '0:00';
-
-            seekContainer.appendChild(currentTime);
-            seekContainer.appendChild(seekBar);
-            seekContainer.appendChild(duration);
-
-            controls.appendChild(playBtn);
-            controls.appendChild(seekContainer);
-
-            player.appendChild(controls);
-            player.appendChild(audio);
-
-            // Update time and seek bar
-            audio.addEventListener('loadedmetadata', () => {
-                duration.textContent = formatTime(audio.duration);
-            });
-
-            audio.addEventListener('timeupdate', () => {
-                currentTime.textContent = formatTime(audio.currentTime);
-                const progress = (audio.currentTime / audio.duration) * 100;
-                seekBarProgress.style.width = `${progress}%`;
-            });
-
-            audio.addEventListener('ended', () => {
-                playBtn.innerHTML = `<svg fill="currentColor" viewBox="0 0 16 16"><path d="M5 3.5v9l7-4.5z"/></svg>`;
-            });
-
-            return player;
-        }
-
-        // Toggle play/pause
-        function togglePlay(audio, button) {
-            // Pause all other audio elements
-            document.querySelectorAll('audio').forEach(a => {
-                if (a !== audio && !a.paused) {
-                    a.pause();
-                    // Reset other play buttons
-                    const otherBtn = a.parentElement.querySelector('.play-btn');
-                    if (otherBtn) {
-                        otherBtn.innerHTML = `<svg fill="currentColor" viewBox="0 0 16 16"><path d="M5 3.5v9l7-4.5z"/></svg>`;
-                    }
-                }
-            });
-
-            if (audio.paused) {
-                audio.play();
-                button.innerHTML = `<svg fill="currentColor" viewBox="0 0 16 16"><path d="M4 3h3v10H4zm5 0h3v10H9z"/></svg>`;
-            } else {
-                audio.pause();
-                button.innerHTML = `<svg fill="currentColor" viewBox="0 0 16 16"><path d="M5 3.5v9l7-4.5z"/></svg>`;
-            }
-        }
-
-        // Seek in track
-        function seek(event, audio, seekBar) {
-            const rect = seekBar.getBoundingClientRect();
-            const percent = (event.clientX - rect.left) / rect.width;
-            audio.currentTime = percent * audio.duration;
-        }
-
-        // Create track element
-        function createTrackElement(entry) {
-            const track = document.createElement('div');
-            track.className = 'track';
-
-            const trackName = document.createElement('div');
-            trackName.className = 'track-name';
-            trackName.textContent = formatTrackName(entry.name);
-
-            const player = createCustomPlayer(`${GATEWAY_URL}${entry.path}`);
-
-            track.appendChild(trackName);
-            track.appendChild(player);
-
-            return track;
-        }
-
-        // Load tracks for a directory
-        async function loadTracks(dirId, dirPath) {
-            const container = document.getElementById(`${dirId}-tracks`);
-
-            try {
-                const response = await fetch(`${GATEWAY_URL}/${dirPath}`);
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                // Filter audio files and sort by name
-                const audioFiles = data.entries
-                    .filter(entry => !entry.is_dir &&
-                           (entry.mime_type.startsWith('audio/') ||
-                            entry.name.match(/\.(mp3|m4a|wav|ogg)$/i)))
-                    .sort((a, b) => a.name.localeCompare(b.name));
-
-                // Clear loading message
-                container.innerHTML = '';
-
-                if (audioFiles.length === 0) {
-                    container.innerHTML = '<div class="loading">no tracks found</div>';
-                    return;
-                }
-
-                // Create track elements
-                audioFiles.forEach(entry => {
-                    const trackElement = createTrackElement(entry);
-                    container.appendChild(trackElement);
-                });
-
-            } catch (error) {
-                console.error(`Error loading ${dirPath}:`, error);
-                container.innerHTML = `<div class="error">failed to load tracks. please try again later.</div>`;
-            }
-        }
-
-        // Load all directories on page load
-        directories.forEach(dir => {
-            loadTracks(dir.id, dir.path);
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
