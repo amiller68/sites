@@ -68,10 +68,20 @@ export TF_VAR_docker_hub_password=$(read_from_vault DOCKER_HUB_PASSWORD)
 # NOTE (amiller68): you should only really turn this on if you have a pro
 #  account to enable multiple private repositories
 export TF_VAR_use_private_repos=${USE_PRIVATE_REPOS:-false}
-export TF_VAR_dns_root_zone="${DNS_ROOT_ZONE}"
-# Export subdomains for Cloudflare DNS module
-# Convert space-separated list to comma-separated for Terraform
-SUBDOMAINS=$(list_subdomains "$STAGE" | tr ' ' ',')
-export TF_VAR_subdomains="${SUBDOMAINS}"
+# Build DNS configuration as JSON for Terraform
+# Format: {"zone1":"subdomain1,subdomain2","zone2":"@"}
+dns_config="{"
+first=true
+for zone in $(list_unique_domains); do
+    zone_subdomains=$(list_subdomains_for_domain "$STAGE" "$zone" | tr ' ' ',')
+    if [ "$first" = true ]; then
+        first=false
+    else
+        dns_config+=","
+    fi
+    dns_config+="\"${zone}\":\"${zone_subdomains}\""
+done
+dns_config+="}"
+export TF_VAR_dns_config="${dns_config}"
 
 run_with_vault -- sh -c "export TF_TOKEN_app_terraform_io=\$TF_TOKEN && cd '$STAGE_DIR' && terraform $*"

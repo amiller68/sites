@@ -23,10 +23,10 @@ variable "domain_slugs" {
   description = "List of domain slugs to create as subdomains"
   type        = list(string)
   default     = []
-  
+
   # check that no domain slugs conflict with our environment names
   validation {
-    condition     = alltrue([
+    condition = alltrue([
       for slug in var.domain_slugs :
       slug != var.environment
     ])

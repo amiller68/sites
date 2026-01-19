@@ -23,11 +23,14 @@ source_project_config() {
     fi
 
     # Validate required variables
-    local required_vars=("PROJECT_NAME" "CLOUD_VAULT" "SERVICES" "DNS_ROOT_ZONE" "USE_PRIVATE_REPOS")
+    local required_vars=("PROJECT_NAME" "CLOUD_VAULT" "SERVICES" "DNS_ROOT_ZONES" "USE_PRIVATE_REPOS")
     local missing_vars=()
 
     for var in "${required_vars[@]}"; do
-        if [ -z "${!var}" ]; then
+        # Use eval to safely check if variable is set and non-empty
+        local val=""
+        eval "val=\${$var:-}"
+        if [ -z "$val" ]; then
             missing_vars+=("$var")
         fi
     done
@@ -59,13 +62,13 @@ services() {
         exit 1
     fi
 
-    # parse the domains we configure for our services from the .env.project file,
-    #  they should be a comma separated list under the SERVICES variable by now,
-    #  where each elem is <service_name>:<domain>
-    # domain may be empty for at most one service
-    # domains may not conflict with each other
+    # parse the services from the .env.project file,
+    #  format: <service_name>:<subdomain>:<domain>
+    #  - subdomain may be empty (means root of domain)
+    #  - domain is required and must be in DNS_ROOT_ZONES
+    # Example: jax:jax:krondor.org,dev:dev:krondor.org,alexplain::alexplain.me
 
-    # just get the names for the services, splitting off the domain
+    # just get the names for the services
     local project_service_names=$(echo "$SERVICES" | tr ',' '\n' | cut -d':' -f1)
 
     # validate that kamal services align with project services --
@@ -79,12 +82,28 @@ services() {
         fi
     done
 
-    # Build space-separated list of service:subdomain pairs
+    # Build space-separated list of service:subdomain:domain triplets
     local service_list=""
     for service in $(echo "$kamal_services" | tr ',' ' '); do
-        # Find the subdomain for this service from SERVICES variable
-        local subdomain=$(echo "$SERVICES" | tr ',' '\n' | grep "^${service}:" | cut -d':' -f2)
-        service_list+="${service}:${subdomain} "
+        # Find the full config for this service from SERVICES variable
+        local service_config=$(echo "$SERVICES" | tr ',' '\n' | grep "^${service}:")
+        local subdomain=$(echo "$service_config" | cut -d':' -f2)
+        local domain=$(echo "$service_config" | cut -d':' -f3)
+
+        # Domain is required
+        if [ -z "$domain" ]; then
+            echo -e "${RED}Error: Service '$service' is missing domain (format: service:subdomain:domain)${NC}"
+            exit 1
+        fi
+
+        # Validate domain is in DNS_ROOT_ZONES
+        if ! echo "$DNS_ROOT_ZONES" | tr ',' '\n' | grep -q "^${domain}$"; then
+            echo -e "${RED}Error: Service '$service' uses domain '$domain' which is not in DNS_ROOT_ZONES${NC}"
+            echo -e "${RED}Available zones: $DNS_ROOT_ZONES${NC}"
+            exit 1
+        fi
+
+        service_list+="${service}:${subdomain}:${domain} "
     done
 
     # Return space-separated list (trim trailing space)
@@ -135,8 +154,9 @@ stages() {
 
 # Get the hostname for a service in a given stage
 # Usage: get_service_hostname <service> <stage>
-# Example: get_service_hostname next production -> smols.org
-# Example: get_service_hostname py development -> app.development.smols.org
+# Example: get_service_hostname jax production -> jax.krondor.org
+# Example: get_service_hostname alexplain production -> alexplain.me
+# Example: get_service_hostname jax staging -> staging.jax.krondor.org
 get_service_hostname() {
     local service="$1"
     local stage="$2"
@@ -146,20 +166,22 @@ get_service_hostname() {
         return 1
     fi
 
-    # Find the service:subdomain pair from services() output
-    local service_pairs=$(services)
+    # Find the service:subdomain:domain triplet from services() output
+    local service_triplets=$(services)
     local subdomain=""
+    local domain=""
 
-    for service_pair in $service_pairs; do
-        local service_name="${service_pair%%:*}"
+    for service_triplet in $service_triplets; do
+        local service_name=$(echo "$service_triplet" | cut -d':' -f1)
         if [ "$service_name" = "$service" ]; then
-            subdomain="${service_pair#*:}"
+            subdomain=$(echo "$service_triplet" | cut -d':' -f2)
+            domain=$(echo "$service_triplet" | cut -d':' -f3)
             break
         fi
     done
 
-    # Start with just the root domain
-    local hostname="${DNS_ROOT_ZONE}"
+    # Start with just the domain
+    local hostname="${domain}"
 
     # If the subdomain is not empty, then add the subdomain to the host name
     if [[ -n "$subdomain" ]]; then
@@ -199,24 +221,38 @@ list_hostnames() {
     echo "${hostnames% }"
 }
 
-# List all subdomains for a given stage (for DNS record creation)
-# Usage: list_subdomains <stage>
-# Example: list_subdomains production
-# Output: @ app (where @ represents root domain)
-list_subdomains() {
-    local stage="$1"
+# List all unique domains from DNS_ROOT_ZONES
+# Usage: list_unique_domains
+# Example: list_unique_domains -> "krondor.org alexplain.me"
+list_unique_domains() {
+    echo "$DNS_ROOT_ZONES" | tr ',' ' '
+}
 
-    if [ -z "$stage" ]; then
-        echo -e "${RED}Error: list_subdomains requires stage argument${NC}" >&2
+# List all subdomains for a given stage and domain (for DNS record creation)
+# Usage: list_subdomains_for_domain <stage> <domain>
+# Example: list_subdomains_for_domain production krondor.org
+# Output: jax dev (subdomains for services on that domain)
+list_subdomains_for_domain() {
+    local stage="$1"
+    local target_domain="$2"
+
+    if [ -z "$stage" ] || [ -z "$target_domain" ]; then
+        echo -e "${RED}Error: list_subdomains_for_domain requires stage and domain arguments${NC}" >&2
         return 1
     fi
 
-    local service_pairs=$(services)
+    local service_triplets=$(services)
     local subdomains=""
 
-    for service_pair in $service_pairs; do
-        local service_name="${service_pair%%:*}"
-        local subdomain="${service_pair#*:}"
+    for service_triplet in $service_triplets; do
+        local service_name=$(echo "$service_triplet" | cut -d':' -f1)
+        local subdomain=$(echo "$service_triplet" | cut -d':' -f2)
+        local domain=$(echo "$service_triplet" | cut -d':' -f3)
+
+        # Skip services not on this domain
+        if [ "$domain" != "$target_domain" ]; then
+            continue
+        fi
 
         # If subdomain is empty, use @ for root
         if [ -z "$subdomain" ]; then
@@ -237,6 +273,28 @@ list_subdomains() {
 
     # Return space-separated list (trim trailing space)
     echo "${subdomains% }"
+}
+
+# List all subdomains for a given stage (for backward compatibility)
+# DEPRECATED: Use list_subdomains_for_domain instead for multi-domain setups
+# Usage: list_subdomains <stage>
+# Output: all subdomains across all domains
+list_subdomains() {
+    local stage="$1"
+
+    if [ -z "$stage" ]; then
+        echo -e "${RED}Error: list_subdomains requires stage argument${NC}" >&2
+        return 1
+    fi
+
+    local all_subdomains=""
+    for domain in $(list_unique_domains); do
+        local domain_subdomains=$(list_subdomains_for_domain "$stage" "$domain")
+        all_subdomains+="$domain_subdomains "
+    done
+
+    # Return space-separated list (trim trailing space)
+    echo "${all_subdomains% }"
 }
 
 # Export service hostnames as environment variables for a given stage
@@ -284,18 +342,24 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     echo ""
     print_info "Project:"
     echo "  Name: $PROJECT_NAME"
-    echo "  DNS Root Zone: $DNS_ROOT_ZONE"
     echo "  Cloud Vault: $CLOUD_VAULT"
 
     echo ""
+    print_info "DNS Zones:"
+    for zone in $(list_unique_domains); do
+        echo "  - $zone"
+    done
+
+    echo ""
     print_info "Services:"
-    for service_pair in $(services); do
-        service_name="${service_pair%%:*}"
-        subdomain="${service_pair#*:}"
+    for service_triplet in $(services); do
+        service_name=$(echo "$service_triplet" | cut -d':' -f1)
+        subdomain=$(echo "$service_triplet" | cut -d':' -f2)
+        domain=$(echo "$service_triplet" | cut -d':' -f3)
         if [ -z "$subdomain" ]; then
-            echo "  - $service_name (root domain)"
+            echo "  - $service_name -> $domain (root)"
         else
-            echo "  - $service_name (subdomain: $subdomain)"
+            echo "  - $service_name -> $subdomain.$domain"
         fi
     done
 
@@ -307,15 +371,22 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     echo ""
     print_info "Production Hostnames:"
-    for service_pair in $(services); do
-        service_name="${service_pair%%:*}"
+    for service_triplet in $(services); do
+        service_name=$(echo "$service_triplet" | cut -d':' -f1)
         hostname=$(get_service_hostname "$service_name" "production")
         echo "  - $service_name: $hostname"
     done
 
     echo ""
+    print_info "DNS Records per Zone (production):"
+    for zone in $(list_unique_domains); do
+        subdomains=$(list_subdomains_for_domain "production" "$zone")
+        echo "  $zone: $subdomains"
+    done
+
+    echo ""
     echo -e "${GRAY}Note: This script is meant to be sourced by other scripts.${NC}"
-    echo -e "${GRAY}Available functions: services, stages, get_service_hostname, list_hostnames, list_subdomains, etc.${NC}"
+    echo -e "${GRAY}Available functions: services, stages, get_service_hostname, list_hostnames, list_subdomains_for_domain, etc.${NC}"
 else
     # source the project config at the top (but skip service validation to avoid circular dependency)
     source_project_config

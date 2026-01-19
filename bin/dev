@@ -12,7 +12,7 @@ source "$PROJECT_ROOT/bin/config"
 
 # Configuration
 SESSION_NAME="$PROJECT_NAME-dev"
-PROJECTS=("py" "ts")
+PROJECTS=("ts" "alexplain")
 
 # Parse arguments
 SELECTED_PROJECTS=()
@@ -24,12 +24,12 @@ while [[ $# -gt 0 ]]; do
       KILL_SESSION=true
       shift
       ;;
-    --py)
-      SELECTED_PROJECTS+=("py")
-      shift
-      ;;
     --ts)
       SELECTED_PROJECTS+=("ts")
+      shift
+      ;;
+    --alexplain)
+      SELECTED_PROJECTS+=("alexplain")
       shift
       ;;
     --help|-h)
@@ -38,15 +38,15 @@ while [[ $# -gt 0 ]]; do
       echo "Run development servers for projects in tmux panes"
       echo ""
       echo "Options:"
-      echo "  --py              Run only Python dev server"
       echo "  --ts              Run only TypeScript dev server"
+      echo "  --alexplain       Run only alexplain dev server"
       echo "  -k, --kill        Kill existing dev session"
       echo "  -h, --help        Show this help message"
       echo ""
       echo "Examples:"
       echo "  $0                Start all dev servers in tmux"
-      echo "  $0 --py           Start only Python dev server"
-      echo "  $0 --py --ts      Start both servers (same as no args)"
+      echo "  $0 --ts           Start only TypeScript dev server"
+      echo "  $0 --ts --alexplain  Start both servers (same as no args)"
       echo "  $0 --kill         Kill the dev tmux session"
       exit 0
       ;;
