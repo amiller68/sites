@@ -34,21 +34,6 @@ variable "digitalocean" {
   })
 }
 
-# Cloudflare configuration
-variable "cloudflare" {
-  description = "Configuration for Cloudflare DNS"
-  type = object({
-    ttl          = optional(number, 300)
-    proxied      = optional(bool, false)
-    dns_root_zone = string
-  })
-}
-
-variable "subdomains" {
-  description = "Comma-separated list of subdomains to create DNS records for (@ for root)"
-  type        = string
-}
-
 # Volume configuration
 variable "volume" {
   description = "Configuration for DigitalOcean volume"

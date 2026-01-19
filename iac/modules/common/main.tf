@@ -11,10 +11,10 @@ resource "random_string" "project_prefix" {
 module "digitalocean_project" {
   source = "../digitalocean/project"
 
-  name = "${var.project_name}-${var.environment}-${random_string.project_prefix.result}-project"
+  name        = "${var.project_name}-${var.environment}-${random_string.project_prefix.result}-project"
   description = "Project for ${var.project_name} ${var.environment}"
   environment = var.environment
-  resources = [module.digitalocean_droplet.urn]
+  resources   = [module.digitalocean_droplet.urn, module.digitalocean_volume.urn]
 }
 
 
@@ -35,7 +35,7 @@ module "digitalocean_droplet" {
   tags   = ["${var.project_name}-${var.environment}"]
 
   # SSH configuration
-  ssh_keys        = [module.digitalocean_ssh_key.id]
+  ssh_keys = [module.digitalocean_ssh_key.id]
 
   # Additional ports for services (e.g., P2P ports)
   additional_ports = var.digitalocean.droplet.additional_ports
@@ -51,16 +51,4 @@ module "digitalocean_volume" {
   description = var.volume.description != "" ? var.volume.description : "Volume for ${var.project_name} ${var.environment}"
   droplet_id  = module.digitalocean_droplet.id
   tags        = ["${var.project_name}-${var.environment}"]
-}
-
-# Cloudflare DNS
-module "cloudflare_dns" {
-  source = "../cloudflare/dns"
-
-  environment    = var.environment
-  dns_root_zone  = var.cloudflare.dns_root_zone
-  droplet_ip     = module.digitalocean_droplet.ipv4_address
-  domain_slugs   = split(",", var.subdomains)
-  ttl            = var.cloudflare.ttl
-  proxied        = var.cloudflare.proxied
 }

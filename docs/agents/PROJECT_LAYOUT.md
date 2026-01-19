@@ -20,6 +20,10 @@ sites/
 │   ├── pnpm-workspace.yaml # Workspace configuration
 │   └── turbo.json          # Turborepo pipeline configuration
 │
+├── alexplain/              # Static music page (alexplain.me)
+│   ├── index.html          # Music collection page
+│   └── Dockerfile          # nginx container
+│
 ├── jax/                    # JAX Python project (separate)
 │
 ├── docs/                   # Documentation
@@ -54,6 +58,19 @@ The art portfolio site at art.krondor.org. Uses:
 - Next.js 15 with App Router
 - Quotient CMS for content management
 - Tailwind CSS for styling
+
+### alexplain (Music Page)
+
+**Location:** `alexplain/`
+
+A static music collection page at alexplain.me. This is **not** a TypeScript application - it's a single HTML file served via nginx.
+
+- Static HTML with embedded CSS/JS
+- Custom audio player for streaming music from jax.krondor.org
+- Deployed via Kamal to DigitalOcean droplet
+- DNS managed via Terraform (alexplain.me zone)
+
+**Note:** This site does not use Turborepo, pnpm, or any TypeScript tooling. It's built and deployed separately using Docker and Kamal.
 
 ## Shared Packages
 

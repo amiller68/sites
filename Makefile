@@ -1,7 +1,7 @@
 ARGS ?=
 
 # TODO: Add more projects as needed here
-PROJECTS := ts
+PROJECTS := ts alexplain
 
 .PHONY: help
 help: ## Show this help message
@@ -10,13 +10,17 @@ help: ## Show this help message
 	@echo 'Run-all targets (operate on all projects):'
 	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z_-]+:.*?##/ && !/^[a-zA-Z_-]+-%:/ { printf "  %-20s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 	@echo ''
-	@echo 'Project-specific targets (use with -<project> suffix, e.g., -py, -ts):'
+	@echo 'Project-specific targets (use with -<project> suffix, e.g., -ts, -alexplain):'
 	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z_-]+-%:.*?##/ { gsub(/-%/, "-<project>", $$1); printf "  %-20s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 	@echo ''
 	@echo 'Available projects:'
 	@for project in $(PROJECTS); do \
 	    echo "  - $$project"; \
 	done
+
+.PHONY: dev
+dev: ## Run all development servers in tmux (use ARGS="--kill" to kill session)
+	@./bin/dev $(ARGS)
 
 # run a make command in the given directory
 run-for:

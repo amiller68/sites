@@ -5,16 +5,12 @@ variable "project_name" {
 }
 
 variable "services" {
-  description = "Services configuration from .env.project (format: service:subdomain,service:subdomain)"
+  description = "Services configuration from .env.project (format: service:subdomain:domain)"
   type        = string
 }
 
-variable "dns_root_zone" {
-  description = "Root DNS zone for the project"
+variable "dns_config" {
+  description = "JSON-encoded DNS configuration mapping zones to their subdomains"
   type        = string
-}
-
-variable "subdomains" {
-  description = "Comma-separated list of subdomains to create DNS records for (@ for root)"
-  type        = string
+  # Example: {"krondor.org":"jax,dev","alexplain.me":"@"}
 }
