@@ -26,13 +26,13 @@ builder:
 
 # Volumes for persistent node configuration and data
 volumes:
-  - "/var/lib/kamal-volumes/<%= ENV['PROJECT_NAME'] %>-jax/node-1.4:/data/node"
+  - "/var/lib/kamal-volumes/<%= ENV['PROJECT_NAME'] %>-jax/node-1.8:/data/node"
 
 env:
   clear:
-    CONFIG_PATH: /data/node/.jax
-    API_ADDR: 0.0.0.0:3000
-    HTML_ADDR: 0.0.0.0:8080
+    CONFIG_PATH: /data/node
+    API_PORT: "5001"
+    GATEWAY_PORT: "8080"
     PEER_PORT: "9000"
 
 proxy:
