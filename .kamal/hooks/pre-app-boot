@@ -1,40 +1,5 @@
 #!/usr/bin/env bash
 
-# Pre-app-boot hook for JAX service
-# Stops any running JAX container before booting new one to prevent
-# database lock conflicts on the shared blobs store
-
-set -e
-
-# Only run for JAX service
-if [[ "${KAMAL_SERVICE}" == *"jax"* ]]; then
-  echo "Stopping existing JAX containers before boot..."
-
-  # KAMAL_HOSTS contains comma-separated list of target hosts
-  IFS=',' read -ra HOSTS <<< "$KAMAL_HOSTS"
-
-  for HOST in "${HOSTS[@]}"; do
-    echo "Checking host: $HOST"
-
-    # Execute docker command on remote host using SSH
-    # The SSH agent is already running from the CI setup
-    CONTAINER_NAMES=$(ssh root@"$HOST" "docker ps --filter 'label=service=krondor-sites-jax' --filter 'label=role=web' --format '{{.Names}}'")
-
-    if [ -n "$CONTAINER_NAMES" ]; then
-      echo "Found containers to stop:"
-      echo "$CONTAINER_NAMES"
-
-      # Stop each container
-      echo "$CONTAINER_NAMES" | while read -r CONTAINER_NAME; do
-        if [ -n "$CONTAINER_NAME" ]; then
-          echo "Stopping container: $CONTAINER_NAME"
-          ssh root@"$HOST" "docker stop $CONTAINER_NAME"
-        fi
-      done
-    else
-      echo "No existing JAX containers found on $HOST"
-    fi
-  done
-
-  echo "Pre-app-boot hook completed"
-fi
+# Pre-app-boot hook
+# Previously stopped JAX containers to prevent database lock conflicts,
+# but this is no longer needed with the filesystem blob store backend.
