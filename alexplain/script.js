@@ -457,7 +457,7 @@ async function loadReleases() {
         const data = await response.json();
 
         // Get subdirectories (each is a release)
-        const releasesDirs = data.entries.filter(e => e.is_dir);
+        const releasesDirs = data.entries.filter(e => e.mime_type === 'inode/directory');
 
         container.innerHTML = '';
 
@@ -478,7 +478,7 @@ async function loadReleases() {
                 e.name.toLowerCase() === 'art.jpeg'
             );
             const audioFiles = releaseData.entries
-                .filter(e => !e.is_dir && e.name.match(/\.(mp3|m4a|wav|ogg)$/i))
+                .filter(e => e.mime_type !== 'inode/directory' && e.name.match(/\.(mp3|m4a|wav|ogg)$/i))
                 .sort((a, b) => a.name.localeCompare(b.name));
 
             // Create release element
