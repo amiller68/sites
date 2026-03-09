@@ -1,5 +1,5 @@
 # Multi-stage build for smaller final image
-FROM rust:1.89-slim AS builder
+FROM rust:1.89-slim-bookworm AS builder
 
 # Install jax-daemon from crates.io with pinned version (no FUSE in container)
 ARG JAX_VERSION=0.1.11
