@@ -10,10 +10,9 @@ export default function About() {
         </p>
         <div className="mt-6 text-base leading-relaxed text-foreground/90 space-y-4">
           <p>
-            I&apos;m an all-in-one startup engineer who codes, manages teams,
-            owns product, and collaborates on vision. I&apos;ve spent the last
-            few years building at the intersection of AI, blockchain, and
-            scalable platform architecture.
+            I&apos;m an serial founding engineer. I&apos;ve spent the last few
+            years building at the intersection of AI, blockchain, and scalable
+            platform architecture.
           </p>
           <p>
             Currently a founding engineer at{" "}
