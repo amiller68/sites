@@ -2,7 +2,7 @@
 FROM rust:1.89-slim AS builder
 
 # Install jax-daemon from crates.io with pinned version (no FUSE in container)
-ARG JAX_VERSION=0.1.9
+ARG JAX_VERSION=0.1.11
 RUN cargo install jax-daemon --version ${JAX_VERSION} --no-default-features
 
 # Runtime stage with minimal dependencies
