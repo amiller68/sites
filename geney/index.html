@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geney — Procedural pathfinding for novel biological constructs</title>
+    <meta name="description" content="A local-first desktop tool that uses procedural A* search to generate solutions for novel biological constructs in research.">
+
+    <!-- OpenGraph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Geney — Procedural pathfinding for novel biological constructs">
+    <meta property="og:description" content="A local-first desktop tool that uses procedural A* search to generate solutions for novel biological constructs in research.">
+    <meta property="og:url" content="https://geney.ai">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Geney — Procedural pathfinding for novel biological constructs">
+    <meta name="twitter:description" content="A local-first desktop tool that uses procedural A* search to generate solutions for novel biological constructs in research.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Nav -->
+    <nav>
+        <div class="container">
+            <a href="/" class="nav-logo">
+                <span class="logo-mark">G</span>
+                geney
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How it works</a></li>
+                <li><a href="#download">Download</a></li>
+                <li><a href="#whitepaper" class="btn-nav">Whitepaper</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">
+                <span class="dot"></span>
+                local-first &middot; open research tooling
+            </div>
+            <h1>Pathfinding for <span class="gradient">novel biology.</span></h1>
+            <p class="hero-description">
+                Geney uses procedural A* search to explore the solution space
+                for generating novel biological constructs — entirely on your machine.
+                No cloud. No black boxes. Just reproducible, explainable results.
+            </p>
+            <div class="hero-actions">
+                <a href="#download" class="btn btn-primary">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v9M4 8l4 4 4-4"/><path d="M2 13h12"/></svg>
+                    Download
+                </a>
+                <a href="#how-it-works" class="btn btn-outline">How it works</a>
+            </div>
+
+            <!-- App screenshot -->
+            <div class="hero-screenshot">
+                <!-- Replace src with actual screenshot -->
+                <div class="screenshot-placeholder">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                    <span>App screenshot</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="container">
+            <span class="section-label">Features</span>
+            <h2 class="section-title">Built for research, not demos.</h2>
+            <p class="section-description">
+                Every design decision optimizes for reproducibility and
+                transparency — so you can trust the output and explain it to reviewers.
+            </p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+                    </div>
+                    <h3>Procedural A* search</h3>
+                    <p>Explores combinatorial design space using heuristic pathfinding — not brute force. Finds optimal assemblies fast.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 7v10M12 7v10M16 7v10"/></svg>
+                    </div>
+                    <h3>Local-first</h3>
+                    <p>Runs entirely on your machine. Your sequences, your registry, your results — never leave your disk.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
+                    </div>
+                    <h3>Explainable results</h3>
+                    <p>Every solution comes with a full trace — the heuristic path, scoring rationale, and part-level compatibility breakdown.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                    </div>
+                    <h3>Modular constructs</h3>
+                    <p>Define targets as composable part graphs. Mix promoters, RBS, CDS, terminators, and custom parts in any topology.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    </div>
+                    <h3>Open formats</h3>
+                    <p>Imports and exports standard formats — GenBank, FASTA, SBOL. No vendor lock-in, no proprietary schemas.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                    </div>
+                    <h3>Desktop-native</h3>
+                    <p>A real desktop application — not a web app in a wrapper. Fast, responsive, and works offline.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <span class="section-label">How it works</span>
+            <h2 class="section-title">From target to assembly in seconds.</h2>
+            <p class="section-description">
+                Define what you need, let the search engine find how to build it.
+            </p>
+            <div class="steps">
+                <div class="step">
+                    <h3>Define your target</h3>
+                    <p>Specify the functional architecture of your construct — the parts you need and how they connect. Use the visual editor or describe it in code.</p>
+                    <div class="step-screenshot">
+                        <div class="screenshot-placeholder screenshot-placeholder-sm">
+                            <span>Screenshot: target editor</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="step">
+                    <h3>Search the space</h3>
+                    <p>Geney's A* engine traverses candidate assemblies using compatibility heuristics, pruning infeasible paths and scoring viable solutions.</p>
+                    <div class="step-screenshot">
+                        <div class="screenshot-placeholder screenshot-placeholder-sm">
+                            <span>Screenshot: search results</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="step">
+                    <h3>Review &amp; export</h3>
+                    <p>Inspect ranked solutions with full explanations. Export as GenBank, FASTA, or SBOL — ready for ordering or further analysis.</p>
+                    <div class="step-screenshot">
+                        <div class="screenshot-placeholder screenshot-placeholder-sm">
+                            <span>Screenshot: export view</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download -->
+    <section class="downloads" id="download">
+        <div class="container">
+            <span class="section-label">Download</span>
+            <h2 class="section-title">Get Geney.</h2>
+            <p class="section-description">
+                Desktop app for macOS, Windows, and Linux. Free for academic research.
+            </p>
+            <div class="download-grid">
+                <div class="download-card">
+                    <div class="platform-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    </div>
+                    <h3>macOS</h3>
+                    <p class="arch">Universal (Apple Silicon + Intel)</p>
+                    <span class="coming-soon">Coming soon</span>
+                </div>
+                <div class="download-card">
+                    <div class="platform-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.548l7.065-0.964 0.003 6.812-7.061 0.04L3 5.548zm7.061 6.628l0.006 6.82-7.061-0.972V12.14l7.055 0.036zm0.855-7.725L20.997 3v8.396l-10.081 0.08V4.451zm10.084 7.741L20.999 21l-10.081-1.423-0.014-6.832 10.084 0.447z"/></svg>
+                    </div>
+                    <h3>Windows</h3>
+                    <p class="arch">x86_64</p>
+                    <span class="coming-soon">Coming soon</span>
+                </div>
+                <div class="download-card">
+                    <div class="platform-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a7.108 7.108 0 0 0 .067.57c.008.045.015.088.022.163a7.558 7.558 0 0 0 .206 1.168c.156.586.385 1.129.729 1.545.344.417.816.682 1.404.682.369 0 .706-.116.982-.29.276-.175.5-.399.709-.645.209-.245.391-.509.573-.78.182-.272.353-.538.549-.794.196-.255.421-.497.712-.689.291-.192.622-.312.986-.321.072-.002.142-.002.21.003.372.025.715.163 1.01.374.296.212.531.473.74.746.209.273.39.556.569.828.179.272.361.534.569.767.208.233.44.437.725.601.285.165.624.261.991.261.372 0 .702-.126.99-.325.288-.199.513-.453.694-.733.181-.28.313-.584.416-.893a7.2 7.2 0 0 0 .218-.898 7.558 7.558 0 0 0 .098-.562l.024-.166a7.108 7.108 0 0 0 .032-.371c.042-.823-.11-1.674-.389-2.503-.588-1.747-1.819-3.44-2.684-4.496-.73-1.057-.954-1.91-1.03-3.002-.065-1.478 1.058-5.97-3.17-6.298-.16-.013-.32-.021-.48-.021z"/></svg>
+                    </div>
+                    <h3>Linux</h3>
+                    <p class="arch">x86_64 / AppImage</p>
+                    <span class="coming-soon">Coming soon</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Whitepaper -->
+    <section class="whitepaper" id="whitepaper">
+        <div class="container">
+            <div class="whitepaper-card">
+                <div class="content">
+                    <h2>Read the whitepaper</h2>
+                    <p>Our approach to procedural pathfinding for biological construct design — methodology, benchmarks, and results.</p>
+                </div>
+                <span class="tag">Coming soon</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <span class="footer-left">&copy; 2026 Geney. Built for research.</span>
+            <ul class="footer-links">
+                <li><a href="https://github.com/geney-ai" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="mailto:contact@geney.ai">Contact</a></li>
+            </ul>
+        </div>
+    </footer>
+
+</body>
+</html>
