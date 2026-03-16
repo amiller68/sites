@@ -5,7 +5,7 @@
 
 // Configuration
 const BUCKET_ID = 'f5a969c4-a3e2-43bc-9ab2-0e6343006d00';
-const GATEWAY_URL = `https://jax.krondor.org/gw/${BUCKET_ID}`;
+const GATEWAY_URL = `https://jax.alexplain.me/gw/${BUCKET_ID}`;
 
 // Music directories
 const directories = [
@@ -214,7 +214,7 @@ async function loadTracks(dirId, dirPath) {
         // Filter audio files and sort by name
         const audioFiles = data.entries
             .filter(entry => !entry.is_dir &&
-                   (entry.mime_type.startsWith('audio/') ||
+                (entry.mime_type.startsWith('audio/') ||
                     entry.name.match(/\.(mp3|m4a|wav|ogg)$/i)))
             .sort((a, b) => a.name.localeCompare(b.name));
 
