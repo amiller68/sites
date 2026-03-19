@@ -10,7 +10,7 @@ type Photo = {
 };
 
 export default async function PhotosPage() {
-  const listing = await photosJax.list("/");
+  const listing = await photosJax.list("/", { deep: true });
 
   const imageExtensions = /\.(jpg|jpeg|png|webp)$/i;
   const photos: Photo[] = [];
