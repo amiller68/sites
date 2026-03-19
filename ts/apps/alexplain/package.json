@@ -1,0 +1,32 @@
+{
+  "name": "alexplain",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "lint": "next lint",
+    "check-types": "tsc --noEmit",
+    "fmt": "prettier --write \"src/**/*.{ts,tsx}\" \"app/**/*.{ts,tsx}\" --config ../../.prettierrc",
+    "fmt:check": "prettier --check \"src/**/*.{ts,tsx}\" \"app/**/*.{ts,tsx}\" --config ../../.prettierrc",
+    "clean": "rm -rf node_modules .turbo .next"
+  },
+  "dependencies": {
+    "@repo/jax": "workspace:*",
+    "next": "15.2.4",
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8",
+    "eslint-config-next": "15.2.4",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5"
+  }
+}

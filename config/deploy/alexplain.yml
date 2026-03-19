@@ -1,6 +1,6 @@
 service: <%= ENV['PROJECT_NAME'] %>-alexplain
 
-deploy_timeout: 60
+deploy_timeout: 120
 
 image: <%= ENV['DOCKER_HUB_USERNAME'] %>/<%= ENV['PROJECT_NAME'] %>-alexplain
 
@@ -18,15 +18,27 @@ registry:
     - DOCKER_HUB_TOKEN
 
 builder:
-  dockerfile: alexplain/Dockerfile
-  context: alexplain
+  dockerfile: ts/apps/alexplain/Dockerfile
+  context: "."
   arch: amd64
   cache:
     type: registry
+  args:
+    JAX_GATEWAY: https://jax.alexplain.me
+
+# Volumes for ISR cache persistence
+volumes:
+  - "/var/lib/kamal-volumes/<%= ENV['PROJECT_NAME'] %>-alexplain/cache:/app/apps/alexplain/.next/cache"
+
+env:
+  clear:
+    JAX_GATEWAY: https://jax.alexplain.me
+    BASE_URL: https://<%= ENV.fetch('HOST_NAME', '') %>
+    NODE_ENV: production
 
 proxy:
   ssl: true
   host: <%= ENV['HOST_NAME'] %>
-  app_port: 80
+  app_port: 3000
   healthcheck:
     path: /
