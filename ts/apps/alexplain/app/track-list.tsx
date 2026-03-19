@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useAudio } from "./audio-context";
+import { PlayIcon, PauseIcon, ShuffleIcon, DownloadIcon } from "./icons";
 
 type TaggedTrack = {
   name: string;
@@ -10,56 +11,116 @@ type TaggedTrack = {
   url: string;
 };
 
-function pickRandom<T>(arr: T[], exclude?: T): T {
-  if (arr.length <= 1) return arr[0];
-  let pick: T;
-  do {
-    pick = arr[Math.floor(Math.random() * arr.length)];
-  } while (pick === exclude && arr.length > 1);
-  return pick;
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
 export function TrackList({ tracks }: { tracks: TaggedTrack[] }) {
-  const { track: currentTrack, playing, play, onEnded } = useAudio();
+  const {
+    track: currentTrack,
+    queue,
+    playing,
+    playQueue,
+    replaceQueue,
+    toggle,
+  } = useAudio();
   const [shuffleOn, setShuffleOn] = useState(false);
 
-  const playNext = useCallback(() => {
-    if (tracks.length === 0) return;
-    if (shuffleOn) {
-      const next = pickRandom(
-        tracks,
-        tracks.find((t) => t.url === currentTrack?.url),
-      );
-      play({ name: next.name, url: next.url });
+  const queueTracks = useMemo(
+    () => tracks.map((t) => ({ name: t.name, url: t.url })),
+    [tracks],
+  );
+
+  const isPlayingFromList = tracks.some((t) => t.url === currentTrack?.url);
+
+  const handlePlayAll = useCallback(() => {
+    if (isPlayingFromList) {
+      toggle();
     } else {
-      const idx = tracks.findIndex((t) => t.url === currentTrack?.url);
-      const next = tracks[(idx + 1) % tracks.length];
-      play({ name: next.name, url: next.url });
+      setShuffleOn(false);
+      playQueue(queueTracks);
     }
-  }, [shuffleOn, tracks, currentTrack, play]);
+  }, [isPlayingFromList, toggle, playQueue, queueTracks]);
 
-  useEffect(() => {
-    onEnded(playNext);
-  }, [onEnded, playNext]);
+  const handleShuffle = useCallback(() => {
+    if (shuffleOn) {
+      setShuffleOn(false);
+      if (isPlayingFromList && currentTrack) {
+        const idx = queueTracks.findIndex((t) => t.url === currentTrack.url);
+        replaceQueue(idx >= 0 ? queueTracks.slice(idx) : queueTracks);
+      } else {
+        playQueue(queueTracks);
+      }
+    } else {
+      setShuffleOn(true);
+      if (isPlayingFromList && currentTrack) {
+        const rest = queueTracks.filter((t) => t.url !== currentTrack.url);
+        replaceQueue([currentTrack, ...shuffle(rest)]);
+      } else {
+        playQueue(shuffle(queueTracks));
+      }
+    }
+  }, [shuffleOn, isPlayingFromList, currentTrack, playQueue, replaceQueue, queueTracks]);
 
-  const startShuffle = useCallback(() => {
-    setShuffleOn(true);
-    const track = pickRandom(tracks);
-    if (track) play({ name: track.name, url: track.url });
-  }, [tracks, play]);
+  const handleTrackClick = useCallback(
+    (clickedTrack: TaggedTrack) => {
+      if (currentTrack?.url === clickedTrack.url) {
+        toggle();
+      } else {
+        const idx = tracks.indexOf(clickedTrack);
+        const source = shuffleOn ? shuffle(queueTracks) : queueTracks;
+        if (shuffleOn) {
+          // Put clicked track first, shuffle the rest
+          const rest = source.filter((t) => t.url !== clickedTrack.url);
+          playQueue(
+            [{ name: clickedTrack.name, url: clickedTrack.url }, ...rest],
+            0,
+          );
+        } else {
+          playQueue(queueTracks, idx);
+        }
+      }
+    },
+    [currentTrack, tracks, queueTracks, shuffleOn, toggle, playQueue],
+  );
+
+  // Detect if our queue is active
+  const isOurQueue =
+    isPlayingFromList &&
+    queue.length > 0 &&
+    queue.some((q) => tracks.some((t) => t.url === q.url));
 
   return (
     <div>
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-end gap-2 mb-4">
         <button
-          onClick={shuffleOn ? () => setShuffleOn(false) : startShuffle}
-          className={`text-sm px-3 py-1 border border-border transition-colors ${
+          onClick={handlePlayAll}
+          className={`flex items-center gap-1.5 text-sm px-3 py-1 border border-border transition-colors ${
+            isOurQueue && playing
+              ? "bg-foreground text-background"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          {isOurQueue && playing ? (
+            <PauseIcon size={14} />
+          ) : (
+            <PlayIcon size={14} />
+          )}
+        </button>
+        <button
+          onClick={handleShuffle}
+          className={`flex items-center gap-1.5 text-sm px-3 py-1 border border-border transition-colors ${
             shuffleOn
               ? "bg-foreground text-background"
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          shuffle
+          <ShuffleIcon size={14} />
         </button>
       </div>
 
@@ -71,13 +132,19 @@ export function TrackList({ tracks }: { tracks: TaggedTrack[] }) {
           return (
             <div
               key={track.path}
-              className={`group flex items-center gap-4 py-2 border-b border-border cursor-pointer ${
+              className={`group flex items-center gap-4 py-2 px-3 border-b border-border cursor-pointer ${
                 isPlaying ? "bg-accent" : ""
               }`}
-              onClick={() => play({ name: track.name, url: track.url })}
+              onClick={() => handleTrackClick(track)}
             >
               <span className="w-5 text-center text-muted-foreground shrink-0">
-                {isActive ? "▶" : isPlaying ? "||" : ""}
+                {isActive ? (
+                  <PlayIcon size={12} />
+                ) : isPlaying ? (
+                  <PauseIcon size={12} />
+                ) : (
+                  ""
+                )}
               </span>
 
               <span className="flex-1">{track.name}</span>
@@ -85,6 +152,16 @@ export function TrackList({ tracks }: { tracks: TaggedTrack[] }) {
               <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground shrink-0">
                 {track.tag}
               </span>
+
+              <a
+                href={track.url}
+                download
+                onClick={(e) => e.stopPropagation()}
+                className="text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                title="Download"
+              >
+                <DownloadIcon size={14} />
+              </a>
             </div>
           );
         })}

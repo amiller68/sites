@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 
 type Photo = {
   url: string;
@@ -47,6 +47,73 @@ function spanFromName(name: string): string {
   return "col-span-1";
 }
 
+function PhotoCard({
+  photo,
+  index,
+  onClick,
+}: {
+  photo: Photo;
+  index: number;
+  onClick: () => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const span = spanFromName(photo.name);
+  const aspect = aspectFromName(photo.name);
+  const delay = (index % 8) * 80;
+  const loadRotation = (seeded(photo.name, 5) - 0.5) * 12;
+
+  return (
+    <div
+      ref={ref}
+      className={`cursor-pointer overflow-visible ${span} -m-1`}
+      onClick={onClick}
+    >
+      <div
+        className={`relative w-full ${aspect} hover:scale-105 hover:z-10`}
+        style={photoStyle(photo.name)}
+      >
+        {!loaded && (
+          <div className="absolute inset-0 bg-muted animate-pulse shadow-md" />
+        )}
+        {visible && (
+          <Image
+            src={photo.url}
+            alt=""
+            fill
+            sizes="(max-width: 768px) 50vw, 33vw"
+            className="object-cover shadow-md transition-all duration-700 ease-out"
+            style={{
+              opacity: loaded ? 1 : 0,
+              transform: `scale(${loaded ? 1 : 1.15}) rotate(${loaded ? 0 : loadRotation}deg)`,
+              transitionDelay: `${delay}ms`,
+            }}
+            onLoad={() => setLoaded(true)}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
 export function Gallery({ photos }: { photos: Photo[] }) {
   const [selected, setSelected] = useState<string | null>(null);
 
@@ -65,32 +132,14 @@ export function Gallery({ photos }: { photos: Photo[] }) {
   return (
     <>
       <div className="grid grid-cols-3 gap-2 -mx-4">
-        {photos.map((photo) => {
-          const span = spanFromName(photo.name);
-          const aspect = aspectFromName(photo.name);
-
-          return (
-            <div
-              key={photo.url}
-              className={`cursor-pointer overflow-visible ${span} -m-1`}
-              onClick={() => setSelected(photo.url)}
-            >
-              <div
-                className={`relative w-full ${aspect} transition-transform duration-300 hover:scale-105 hover:z-10`}
-                style={photoStyle(photo.name)}
-              >
-                <Image
-                  src={photo.url}
-                  alt=""
-                  fill
-                  className="object-cover shadow-md"
-                  loading="lazy"
-                  unoptimized
-                />
-              </div>
-            </div>
-          );
-        })}
+        {photos.map((photo, i) => (
+          <PhotoCard
+            key={photo.url}
+            photo={photo}
+            index={i}
+            onClick={() => setSelected(photo.url)}
+          />
+        ))}
       </div>
 
       {selected && (

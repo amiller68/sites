@@ -43,4 +43,9 @@ export class JaxClient {
     const cleanPath = path.startsWith("/") ? path : `/${path}`;
     return this.withVersion(`${this.baseUrl()}${cleanPath}`);
   }
+
+  rawFileUrl(path: string): string {
+    const cleanPath = path.startsWith("/") ? path : `/${path}`;
+    return this.withVersion(`${this.baseUrl()}${cleanPath}?viewer=false`);
+  }
 }

@@ -13,3 +13,10 @@ export const photosJax = new JaxClient({
   gateway: GATEWAY,
   bucketId: PHOTOS_BUCKET_ID,
 });
+
+const NOTES_BUCKET_ID = "a1d840ea-e6f9-429a-be3e-04872b73d3f4";
+
+export const notesJax = new JaxClient({
+  gateway: GATEWAY,
+  bucketId: NOTES_BUCKET_ID,
+});

@@ -1,7 +1,7 @@
 ARGS ?=
 
 # TODO: Add more projects as needed here
-PROJECTS := ts alexplain
+PROJECTS := ts
 
 .PHONY: help
 help: ## Show this help message
