@@ -34,7 +34,7 @@ jobs:
               - '.kamal/hooks/**'
               - '.github/workflows/cd.yml'
             alexplain:
-              - 'alexplain/**'
+              - 'ts/**'
               - 'bin/kamal'
               - 'bin/iac'
               - 'config/deploy/alexplain.yml'
