@@ -65,7 +65,14 @@ export function TrackList({ tracks }: { tracks: TaggedTrack[] }) {
         playQueue(shuffle(queueTracks));
       }
     }
-  }, [shuffleOn, isPlayingFromList, currentTrack, playQueue, replaceQueue, queueTracks]);
+  }, [
+    shuffleOn,
+    isPlayingFromList,
+    currentTrack,
+    playQueue,
+    replaceQueue,
+    queueTracks,
+  ]);
 
   const handleTrackClick = useCallback(
     (clickedTrack: TaggedTrack) => {

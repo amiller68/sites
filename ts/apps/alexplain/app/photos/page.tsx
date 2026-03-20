@@ -28,9 +28,11 @@ export default async function PhotosPage() {
   // Deterministic shuffle based on filenames
   photos.sort((a, b) => {
     let ha = 0;
-    for (let i = 0; i < a.name.length; i++) ha = ((ha << 5) - ha + a.name.charCodeAt(i)) | 0;
+    for (let i = 0; i < a.name.length; i++)
+      ha = ((ha << 5) - ha + a.name.charCodeAt(i)) | 0;
     let hb = 0;
-    for (let i = 0; i < b.name.length; i++) hb = ((hb << 5) - hb + b.name.charCodeAt(i)) | 0;
+    for (let i = 0; i < b.name.length; i++)
+      hb = ((hb << 5) - hb + b.name.charCodeAt(i)) | 0;
     return ha - hb;
   });
 
