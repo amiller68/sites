@@ -1,4 +1,5 @@
 import { jax } from "@/lib/jax";
+import { getTrackToSongMap } from "@/lib/songbook";
 import { TrackList } from "../track-list";
 
 export const dynamic = "force-static";
@@ -33,7 +34,7 @@ export default async function TracksPage() {
     if (entry.mime_type === "inode/directory") continue;
     if (!audioExtensions.test(entry.name)) continue;
     const tag = deriveTag(entry.path);
-    if (!tag || tag === "releases") continue;
+    if (!tag || tag === "songs") continue;
     tracks.push({
       name: formatTrackName(entry.name),
       path: entry.path,
@@ -43,9 +44,10 @@ export default async function TracksPage() {
   }
 
   const tagOrder: Record<string, number> = {
-    roughs: 0,
-    "at-home": 1,
-    jams: 2,
+    releases: 0,
+    roughs: 1,
+    "at-home": 2,
+    jams: 3,
   };
   tracks.sort((a, b) => {
     const ao = tagOrder[a.tag] ?? 99;
@@ -54,13 +56,24 @@ export default async function TracksPage() {
     return a.path.localeCompare(b.path);
   });
 
+  const songMap = await getTrackToSongMap();
+  const songLinks: Record<string, string> = {};
+  for (const track of tracks) {
+    const normalized = track.path
+      .replace(/^\//, "")
+      .replace(audioExtensions, "")
+      .toLowerCase();
+    const songSlug = songMap.get(normalized);
+    if (songSlug) songLinks[track.path] = songSlug;
+  }
+
   return (
     <div>
       <h1 className="text-2xl mb-2">tracks</h1>
       <p className="text-muted-foreground mb-8">
-        roughs, jams, and at-home recordings.
+        roughs, jams, at-home recordings, and releases.
       </p>
-      <TrackList tracks={tracks} />
+      <TrackList tracks={tracks} songLinks={songLinks} />
     </div>
   );
 }

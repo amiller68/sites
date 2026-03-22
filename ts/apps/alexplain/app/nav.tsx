@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 const links = [
   { href: "/", label: "home" },
   { href: "/tracks", label: "tracks" },
+  { href: "/songs", label: "songs" },
   { href: "/photos", label: "photos" },
   { href: "/notes", label: "notes" },
 ];
@@ -81,11 +82,11 @@ export function Nav() {
 
   return (
     <nav className="w-full py-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <Link href="/" className="text-4xl">
           alex plain
         </Link>
-        <div className="flex flex-col items-end gap-2">
+        <div className="flex flex-col items-start sm:items-end gap-2">
           <ul className="flex gap-6">
             {links.map((link) => {
               const active =
