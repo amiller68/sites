@@ -67,7 +67,10 @@ export function NowPlaying() {
 
   const currentIdx = queue.findIndex((t) => t.url === track.url);
   const remaining = currentIdx >= 0 ? queue.length - currentIdx - 1 : 0;
-  const nextTrack = currentIdx >= 0 && currentIdx < queue.length - 1 ? queue[currentIdx + 1] : null;
+  const nextTrack =
+    currentIdx >= 0 && currentIdx < queue.length - 1
+      ? queue[currentIdx + 1]
+      : null;
 
   if (expanded) {
     return (

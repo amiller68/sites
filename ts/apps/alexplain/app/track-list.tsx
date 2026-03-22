@@ -171,7 +171,9 @@ export function TrackList({
               </span>
 
               <span className="flex-1">
-                <span className="text-muted-foreground text-xs">{track.tag} / </span>
+                <span className="text-muted-foreground text-xs">
+                  {track.tag} /{" "}
+                </span>
                 {track.name}
               </span>
 
@@ -196,7 +198,10 @@ export function TrackList({
                   }
                   setCopiedPath(track.path);
                   if (copyTimeout.current) clearTimeout(copyTimeout.current);
-                  copyTimeout.current = setTimeout(() => setCopiedPath(null), 1500);
+                  copyTimeout.current = setTimeout(
+                    () => setCopiedPath(null),
+                    1500,
+                  );
                 }}
                 className="text-muted-foreground hover:text-foreground shrink-0"
                 title="Copy link"

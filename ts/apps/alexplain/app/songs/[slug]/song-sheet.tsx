@@ -12,7 +12,12 @@ import {
 } from "../../icons";
 
 type Track = { name: string; url: string };
-type SongMeta = { key?: string; tempo?: number; capo?: number; tuning?: string };
+type SongMeta = {
+  key?: string;
+  tempo?: number;
+  capo?: number;
+  tuning?: string;
+};
 
 const SCROLL_MIN = 0.3;
 const SCROLL_MAX = 5;
@@ -184,7 +189,10 @@ ${safeMeta.length ? `<div class="meta">${safeMeta.join(" &middot; ")}</div>` : "
 
       {showScroll && (
         <div className="fixed bottom-24 right-6 z-40 flex items-center gap-3 px-3 py-2 bg-foreground text-background border border-border shadow-lg text-sm">
-          <button onClick={() => setScrolling((v) => !v)} title={scrolling ? "Pause" : "Play"}>
+          <button
+            onClick={() => setScrolling((v) => !v)}
+            title={scrolling ? "Pause" : "Play"}
+          >
             {scrolling ? <PauseIcon size={14} /> : <PlayIcon size={14} />}
           </button>
           <input

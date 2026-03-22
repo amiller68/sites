@@ -24,7 +24,9 @@ export default async function SongPage({
   if (!song) return notFound();
 
   const html = renderChordPro(song.body);
-  const track = song.track ? await resolveTrack(song.track, song.title) : undefined;
+  const track = song.track
+    ? await resolveTrack(song.track, song.title)
+    : undefined;
 
   return (
     <div>
@@ -48,7 +50,12 @@ export default async function SongPage({
         html={html}
         slug={song.slug}
         title={song.title}
-        meta={{ key: song.key, tempo: song.tempo, capo: song.capo, tuning: song.tuning }}
+        meta={{
+          key: song.key,
+          tempo: song.tempo,
+          capo: song.capo,
+          tuning: song.tuning,
+        }}
         track={track}
         autoPlay
       />

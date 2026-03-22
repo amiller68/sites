@@ -82,9 +82,30 @@ export function QrCodeIcon({ size = 16 }: { size?: number }) {
       <rect x="2" y="2" width="8" height="8" rx="1" />
       <rect x="14" y="2" width="8" height="8" rx="1" />
       <rect x="2" y="14" width="8" height="8" rx="1" />
-      <rect x="5" y="5" width="2" height="2" fill="currentColor" stroke="none" />
-      <rect x="17" y="5" width="2" height="2" fill="currentColor" stroke="none" />
-      <rect x="5" y="17" width="2" height="2" fill="currentColor" stroke="none" />
+      <rect
+        x="5"
+        y="5"
+        width="2"
+        height="2"
+        fill="currentColor"
+        stroke="none"
+      />
+      <rect
+        x="17"
+        y="5"
+        width="2"
+        height="2"
+        fill="currentColor"
+        stroke="none"
+      />
+      <rect
+        x="5"
+        y="17"
+        width="2"
+        height="2"
+        fill="currentColor"
+        stroke="none"
+      />
       <path d="M14 14h2v2h-2z" fill="currentColor" stroke="none" />
       <path d="M20 14h2v2h-2z" fill="currentColor" stroke="none" />
       <path d="M14 20h2v2h-2z" fill="currentColor" stroke="none" />
@@ -113,7 +134,10 @@ export function ScrollIcon({ size = 16 }: { size?: number }) {
   );
 }
 
-export { RotateCcw as SkipBackIcon, RotateCw as SkipForwardIcon } from "lucide-react";
+export {
+  RotateCcw as SkipBackIcon,
+  RotateCw as SkipForwardIcon,
+} from "lucide-react";
 
 export function NextTrackIcon({ size = 16 }: { size?: number }) {
   return (
