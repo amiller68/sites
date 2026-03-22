@@ -1,6 +1,6 @@
 import { JaxClient } from "@repo/jax";
 
-const MUSIC_BUCKET_ID = "f5a969c4-a3e2-43bc-9ab2-0e6343006d00";
+const MUSIC_BUCKET_ID = "5f5b5e76-4aad-4a62-9d2f-c233d1c478c0";
 const PHOTOS_BUCKET_ID = "f45fe1b0-8172-4619-b6c6-17518058ff16";
 const GATEWAY = process.env.JAX_GATEWAY || "https://jax.alexplain.me";
 
