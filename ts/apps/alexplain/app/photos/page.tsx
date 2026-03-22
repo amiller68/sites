@@ -6,6 +6,7 @@ export const revalidate = 3600;
 
 type Photo = {
   url: string;
+  thumbUrl: string;
   name: string;
 };
 
@@ -19,8 +20,10 @@ export default async function PhotosPage() {
     if (entry.mime_type === "inode/directory") continue;
     if (!imageExtensions.test(entry.name)) continue;
     if (entry.name.toLowerCase() === "logo.png") continue;
+    const url = photosJax.fileUrl(entry.path);
     photos.push({
-      url: photosJax.fileUrl(entry.path),
+      url,
+      thumbUrl: `${url}${url.includes("?") ? "&" : "?"}w=600&q=75`,
       name: entry.name,
     });
   }

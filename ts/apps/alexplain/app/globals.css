@@ -24,7 +24,58 @@ body {
   line-height: 1.7;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: 0 0% 7%;
+    --foreground: 0 0% 93%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 55%;
+    --accent: 0 0% 18%;
+    --accent-foreground: 0 0% 93%;
+    --border: 0 0% 25%;
+  }
+}
+
 ::selection {
-  background: hsl(0 0% 7%);
-  color: hsl(0 0% 100%);
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+
+/* chordsheetjs renderer */
+.song-sheet table.row {
+  border-collapse: collapse;
+  margin-bottom: 0.25rem;
+}
+
+.song-sheet .chord {
+  font-weight: 700;
+  white-space: pre;
+  padding: 0;
+}
+
+.song-sheet .lyrics {
+  white-space: pre;
+  padding: 0;
+}
+
+.song-sheet .comment {
+  color: hsl(var(--muted-foreground));
+  font-style: italic;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.song-sheet .paragraph {
+  margin-bottom: 1rem;
+}
+
+.song-sheet .literal {
+  white-space: pre;
+}
+
+.song-sheet .paragraph.tab {
+  background: hsl(var(--muted));
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  margin: 0.5rem 0;
 }

@@ -13,7 +13,10 @@
   },
   "dependencies": {
     "@repo/jax": "workspace:*",
+    "chordsheetjs": "^14.2.1",
+    "lucide-react": "^0.454.0",
     "next": "15.2.4",
+    "qrcode.react": "^4.2.0",
     "react": "^19",
     "react-dom": "^19"
   },

@@ -5,6 +5,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 
 type Photo = {
   url: string;
+  thumbUrl: string;
   name: string;
 };
 
@@ -96,9 +97,10 @@ function PhotoCard({
         )}
         {visible && (
           <Image
-            src={photo.url}
+            src={photo.thumbUrl}
             alt=""
             fill
+            unoptimized
             sizes="(max-width: 768px) 50vw, 33vw"
             className="object-cover shadow-md transition-all duration-700 ease-out"
             style={{

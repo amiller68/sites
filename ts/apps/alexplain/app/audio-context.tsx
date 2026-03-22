@@ -27,6 +27,8 @@ type AudioActions = {
   replaceQueue: (tracks: Track[]) => void;
   toggle: () => void;
   seek: (pct: number) => void;
+  seekRelative: (seconds: number) => void;
+  next: () => void;
   stop: () => void;
 };
 
@@ -160,6 +162,24 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     audio.currentTime = pct * audio.duration;
   }, []);
 
+  const seekRelative = useCallback((seconds: number) => {
+    const audio = audioRef.current;
+    if (!audio || !audio.duration) return;
+    audio.currentTime = Math.max(
+      0,
+      Math.min(audio.duration, audio.currentTime + seconds),
+    );
+  }, []);
+
+  const next = useCallback(() => {
+    const q = queueRef.current;
+    const cur = trackRef.current;
+    if (!q.length || !cur) return;
+    const idx = q.findIndex((t) => t.url === cur.url);
+    if (idx === -1 || idx === q.length - 1) return;
+    startTrack(q[idx + 1]);
+  }, [startTrack]);
+
   const stop = useCallback(() => {
     const audio = audioRef.current;
     if (audio) {
@@ -216,6 +236,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         replaceQueue,
         toggle,
         seek,
+        seekRelative,
+        next,
         stop,
       }}
     >

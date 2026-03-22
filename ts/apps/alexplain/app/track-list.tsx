@@ -1,8 +1,16 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useAudio } from "./audio-context";
-import { PlayIcon, PauseIcon, ShuffleIcon, DownloadIcon } from "./icons";
+import {
+  PlayIcon,
+  PauseIcon,
+  ShuffleIcon,
+  DownloadIcon,
+  LinkIcon,
+  MusicNoteIcon,
+} from "./icons";
 
 type TaggedTrack = {
   name: string;
@@ -20,7 +28,13 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-export function TrackList({ tracks }: { tracks: TaggedTrack[] }) {
+export function TrackList({
+  tracks,
+  songLinks = {},
+}: {
+  tracks: TaggedTrack[];
+  songLinks?: Record<string, string>;
+}) {
   const {
     track: currentTrack,
     queue,
@@ -30,6 +44,8 @@ export function TrackList({ tracks }: { tracks: TaggedTrack[] }) {
     toggle,
   } = useAudio();
   const [shuffleOn, setShuffleOn] = useState(false);
+  const [copiedPath, setCopiedPath] = useState<string | null>(null);
+  const copyTimeout = useRef<ReturnType<typeof setTimeout>>(null);
 
   const queueTracks = useMemo(
     () => tracks.map((t) => ({ name: t.name, url: t.url })),
@@ -146,25 +162,57 @@ export function TrackList({ tracks }: { tracks: TaggedTrack[] }) {
             >
               <span className="w-5 text-center text-muted-foreground shrink-0">
                 {isActive ? (
-                  <PlayIcon size={12} />
-                ) : isPlaying ? (
                   <PauseIcon size={12} />
+                ) : isPlaying ? (
+                  <PlayIcon size={12} />
                 ) : (
                   ""
                 )}
               </span>
 
-              <span className="flex-1">{track.name}</span>
-
-              <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground shrink-0">
-                {track.tag}
+              <span className="flex-1">
+                <span className="text-muted-foreground text-xs">{track.tag} / </span>
+                {track.name}
               </span>
+
+              {songLinks[track.path] && (
+                <Link
+                  href={`/songs/${songLinks[track.path]}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-muted-foreground hover:text-foreground shrink-0"
+                  title="View songbook"
+                >
+                  <MusicNoteIcon size={14} />
+                </Link>
+              )}
+
+              <button
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  try {
+                    await navigator.clipboard.writeText(track.url);
+                  } catch {
+                    return;
+                  }
+                  setCopiedPath(track.path);
+                  if (copyTimeout.current) clearTimeout(copyTimeout.current);
+                  copyTimeout.current = setTimeout(() => setCopiedPath(null), 1500);
+                }}
+                className="text-muted-foreground hover:text-foreground shrink-0"
+                title="Copy link"
+              >
+                {copiedPath === track.path ? (
+                  <span className="text-xs">copied</span>
+                ) : (
+                  <LinkIcon size={14} />
+                )}
+              </button>
 
               <a
                 href={track.url}
                 download
                 onClick={(e) => e.stopPropagation()}
-                className="text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                className="text-muted-foreground hover:text-foreground shrink-0"
                 title="Download"
               >
                 <DownloadIcon size={14} />
