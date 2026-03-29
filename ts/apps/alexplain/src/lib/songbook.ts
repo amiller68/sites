@@ -129,9 +129,69 @@ export async function getTrackToSongMap(): Promise<Map<string, string>> {
   return map;
 }
 
-export function renderChordPro(chordProBody: string): string {
+export type ChordDefinition = {
+  name: string;
+  baseFret: number;
+  frets: (number | "x")[];
+  fingers: number[];
+};
+
+const DEFINE_RE =
+  /^\{define:\s*(\S+)\s+(?:base-fret\s+(\d+)\s+)?frets\s+([\d\sx]+?)(?:\s+fingers\s+([\d\s]+))?\s*\}$/i;
+
+function parseFrets(raw: string): (number | "x")[] {
+  return raw
+    .trim()
+    .split(/\s+/)
+    .map((v) => (v.toLowerCase() === "x" ? "x" : Number(v)));
+}
+
+function parseDefineLines(body: string): {
+  cleaned: string;
+  chordDefinitions: ChordDefinition[];
+} {
+  const lines = body.split("\n");
+  const defs: ChordDefinition[] = [];
+  const out: string[] = [];
+  let insertedPlaceholder = false;
+
+  for (const line of lines) {
+    const m = line.trim().match(DEFINE_RE);
+    if (m) {
+      const rawBase = m[2] ? Number(m[2]) : 1;
+      defs.push({
+        name: m[1],
+        baseFret: Math.max(rawBase, 1),
+        frets: parseFrets(m[3]),
+        fingers: m[4]
+          ? m[4]
+              .trim()
+              .split(/\s+/)
+              .map((v) => Number(v))
+          : [],
+      });
+      if (!insertedPlaceholder) {
+        out.push("{comment: __CHORD_DEFS__}");
+        insertedPlaceholder = true;
+      }
+    } else {
+      out.push(line);
+    }
+  }
+
+  return { cleaned: out.join("\n"), chordDefinitions: defs };
+}
+
+export function renderChordPro(chordProBody: string): {
+  html: string;
+  chordDefinitions: ChordDefinition[];
+} {
+  const { cleaned, chordDefinitions } = parseDefineLines(chordProBody);
+
   const parser = new ChordSheetJS.ChordProParser();
-  const song = parser.parse(chordProBody);
+  const song = parser.parse(cleaned);
   const formatter = new ChordSheetJS.HtmlTableFormatter();
-  return formatter.format(song);
+  const html = formatter.format(song);
+
+  return { html, chordDefinitions };
 }

@@ -10,6 +10,7 @@ import {
   QrCodeIcon,
   ScrollIcon,
 } from "../../icons";
+import type { ChordDefinition } from "@/lib/songbook";
 
 type Track = { name: string; url: string };
 type SongMeta = {
@@ -19,8 +20,148 @@ type SongMeta = {
   tuning?: string;
 };
 
+const DIAGRAM_FRETS = 4;
+const STRING_SP = 12;
+const FRET_SP = 14;
+const PAD_L = 16;
+const PAD_T = 22;
+
+function chordLayout(def: ChordDefinition) {
+  const numStrings = def.frets.length;
+  const numeric = def.frets.filter(
+    (f): f is number => typeof f === "number" && f > 0,
+  );
+  const minFret = numeric.length ? Math.min(...numeric) : 1;
+  const maxFret = numeric.length ? Math.max(...numeric) : 0;
+  const span = maxFret - minFret;
+  const baseFret =
+    span < DIAGRAM_FRETS && def.baseFret > 0 ? def.baseFret : minFret;
+  const numFrets = Math.max(maxFret - baseFret + 1, DIAGRAM_FRETS);
+  const gw = (numStrings - 1) * STRING_SP;
+  const gh = numFrets * FRET_SP;
+  return { numStrings, baseFret, numFrets, gw, gh };
+}
+
+function ChordDiagram({ def }: { def: ChordDefinition }) {
+  const { w, h, elements } = chordDiagramSvgParts(def, "currentColor");
+  return (
+    <div className="inline-flex flex-col items-center">
+      <span className="text-[10px] font-bold mb-px">{def.name}</span>
+      <svg
+        width={w}
+        height={h}
+        viewBox={`0 0 ${w} ${h}`}
+        className="text-foreground"
+        dangerouslySetInnerHTML={{ __html: elements }}
+      />
+    </div>
+  );
+}
+
+const CHORD_DEFS_MARKER = "__CHORD_DEFS__";
+
+function splitAtMarker(html: string): { before: string; after: string } | null {
+  const markerIdx = html.indexOf(CHORD_DEFS_MARKER);
+  if (markerIdx === -1) return null;
+
+  const beforeIdx = html.lastIndexOf('<div class="paragraph', markerIdx);
+  const closeIdx = html.indexOf("</div>", markerIdx);
+  const afterIdx = closeIdx !== -1 ? closeIdx + "</div>".length : markerIdx;
+
+  return { before: html.slice(0, beforeIdx), after: html.slice(afterIdx) };
+}
+
+function SongBody({
+  html,
+  chordDefinitions,
+}: {
+  html: string;
+  chordDefinitions?: ChordDefinition[];
+}) {
+  const hasDefs = chordDefinitions && chordDefinitions.length > 0;
+  const split = hasDefs ? splitAtMarker(html) : null;
+
+  if (!split) {
+    return (
+      <div
+        className="song-sheet font-mono text-sm leading-relaxed"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    );
+  }
+
+  return (
+    <div className="song-sheet font-mono text-sm leading-relaxed">
+      <div dangerouslySetInnerHTML={{ __html: split.before }} />
+      <div className="flex flex-wrap gap-3 my-4">
+        {chordDefinitions!.map((def, i) => (
+          <ChordDiagram key={`${def.name}-${i}`} def={def} />
+        ))}
+      </div>
+      <div dangerouslySetInnerHTML={{ __html: split.after }} />
+    </div>
+  );
+}
+
 const SCROLL_MIN = 0.3;
 const SCROLL_MAX = 5;
+
+function chordDiagramSvgParts(
+  def: ChordDefinition,
+  color: string,
+): { w: number; h: number; elements: string } {
+  const { numStrings, baseFret, numFrets, gw, gh } = chordLayout(def);
+  const w = gw + PAD_L + 8;
+  const h = gh + PAD_T + 10;
+
+  const nut =
+    baseFret === 1
+      ? `<rect x="${PAD_L}" y="${PAD_T - 2}" width="${gw}" height="2.5" fill="${color}"/>`
+      : `<text x="${PAD_L - 4}" y="${PAD_T + FRET_SP / 2 + 3}" text-anchor="end" font-size="8" fill="${color}">${baseFret}</text>`;
+
+  const fretLines = Array.from(
+    { length: numFrets + 1 },
+    (_, i) =>
+      `<line x1="${PAD_L}" y1="${PAD_T + i * FRET_SP}" x2="${PAD_L + gw}" y2="${PAD_T + i * FRET_SP}" stroke="${color}" stroke-width="0.5"/>`,
+  ).join("");
+
+  const stringLines = Array.from(
+    { length: numStrings },
+    (_, i) =>
+      `<line x1="${PAD_L + i * STRING_SP}" y1="${PAD_T}" x2="${PAD_L + i * STRING_SP}" y2="${PAD_T + gh}" stroke="${color}" stroke-width="0.5"/>`,
+  ).join("");
+
+  const dots = def.frets
+    .map((fret, i) => {
+      const x = PAD_L + i * STRING_SP;
+      if (fret === "x" || fret === -1)
+        return `<text x="${x}" y="${PAD_T - 6}" text-anchor="middle" font-size="8" fill="${color}">x</text>`;
+      if (fret === 0)
+        return `<circle cx="${x}" cy="${PAD_T - 7}" r="3" fill="none" stroke="${color}" stroke-width="0.8"/>`;
+      const y = PAD_T + (fret - baseFret) * FRET_SP + FRET_SP / 2;
+      return `<circle cx="${x}" cy="${y}" r="4" fill="${color}"/>`;
+    })
+    .join("");
+
+  return { w, h, elements: nut + fretLines + stringLines + dots };
+}
+
+function renderChordDiagramSvg(def: ChordDefinition): string {
+  const { w, h, elements } = chordDiagramSvgParts(def, "black");
+  return `<div style="display:inline-flex;flex-direction:column;align-items:center">
+    <span style="font-size:10px;font-weight:bold;margin-bottom:1px">${escapeHtml(def.name)}</span>
+    <svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${elements}</svg>
+  </div>`;
+}
+
+function printHtmlWithChords(html: string, defs?: ChordDefinition[]): string {
+  if (!defs || defs.length === 0) return html;
+  const split = splitAtMarker(html);
+  if (!split) return html;
+
+  const diagrams = `<div style="display:flex;flex-wrap:wrap;gap:12px;margin:0.5rem 0 1rem">${defs.map((d) => renderChordDiagramSvg(d)).join("")}</div>`;
+  return split.before + diagrams + split.after;
+}
 
 function escapeHtml(str: string): string {
   return str
@@ -32,6 +173,7 @@ function escapeHtml(str: string): string {
 
 export function SongSheet({
   html,
+  chordDefinitions,
   track,
   slug,
   title,
@@ -39,6 +181,7 @@ export function SongSheet({
   autoPlay,
 }: {
   html: string;
+  chordDefinitions?: ChordDefinition[];
   track?: Track;
   slug: string;
   title: string;
@@ -98,11 +241,11 @@ export function SongSheet({
 </head><body>
 <h1>${safeTitle}</h1>
 ${safeMeta.length ? `<div class="meta">${safeMeta.join(" &middot; ")}</div>` : ""}
-<div class="song-sheet">${html}</div>
+<div class="song-sheet">${printHtmlWithChords(html, chordDefinitions)}</div>
 </body></html>`);
     w.document.close();
     w.print();
-  }, [title, meta, html]);
+  }, [title, meta, html, chordDefinitions]);
 
   useEffect(() => {
     if (!showQr) return;
@@ -207,10 +350,7 @@ ${safeMeta.length ? `<div class="meta">${safeMeta.join(" &middot; ")}</div>` : "
         </div>
       )}
 
-      <div
-        className="song-sheet font-mono text-sm leading-relaxed"
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      <SongBody html={html} chordDefinitions={chordDefinitions} />
     </div>
   );
 }

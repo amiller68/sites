@@ -23,7 +23,7 @@ export default async function SongPage({
 
   if (!song) return notFound();
 
-  const html = renderChordPro(song.body);
+  const { html, chordDefinitions } = renderChordPro(song.body);
   const track = song.track
     ? await resolveTrack(song.track, song.title)
     : undefined;
@@ -48,6 +48,7 @@ export default async function SongPage({
 
       <SongSheet
         html={html}
+        chordDefinitions={chordDefinitions}
         slug={song.slug}
         title={song.title}
         meta={{
