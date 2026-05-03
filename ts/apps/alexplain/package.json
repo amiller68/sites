@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
+    "dev": "JAX_GATEWAY=http://localhost:8080 next dev -p 3001",
+    "dev:prod": "next dev -p 3001",
     "build": "next build",
     "lint": "next lint",
     "check-types": "tsc --noEmit",

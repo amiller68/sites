@@ -1,8 +1,8 @@
 import { JaxClient } from "@repo/jax";
 
-const MUSIC_BUCKET_ID = "5f5b5e76-4aad-4a62-9d2f-c233d1c478c0";
+const MUSIC_BUCKET_ID = "acef5203-2a06-499c-8cc1-7e8c953aae71";
 const PHOTOS_BUCKET_ID = "f45fe1b0-8172-4619-b6c6-17518058ff16";
-const GATEWAY = process.env.JAX_GATEWAY || "https://jax.alexplain.me";
+const GATEWAY = process.env.JAX_GATEWAY || "https://jax.krondor.org";
 
 export const jax = new JaxClient({
   gateway: GATEWAY,

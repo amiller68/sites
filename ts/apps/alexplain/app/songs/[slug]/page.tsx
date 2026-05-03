@@ -49,6 +49,7 @@ export default async function SongPage({
       <SongSheet
         html={html}
         chordDefinitions={chordDefinitions}
+        chordProBody={song.body}
         slug={song.slug}
         title={song.title}
         meta={{

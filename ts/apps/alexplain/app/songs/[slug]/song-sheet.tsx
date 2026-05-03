@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
+import ChordSheetJS from "chordsheetjs";
 import { useAudio } from "../../audio-context";
 import {
   PlayIcon,
@@ -58,7 +59,62 @@ function ChordDiagram({ def }: { def: ChordDefinition }) {
   );
 }
 
+const DEFINE_RE =
+  /^\{define:\s*(\S+)\s+(?:base-fret\s+(\d+)\s+)?frets\s+([\d\sx]+?)(?:\s+fingers\s+([\d\s]+))?\s*\}$/i;
+
 const CHORD_DEFS_MARKER = "__CHORD_DEFS__";
+
+function stripDefineLines(body: string): {
+  cleaned: string;
+  chordDefinitions: ChordDefinition[];
+} {
+  const lines = body.split("\n");
+  const defs: ChordDefinition[] = [];
+  const out: string[] = [];
+  let insertedPlaceholder = false;
+
+  for (const line of lines) {
+    const m = line.trim().match(DEFINE_RE);
+    if (m) {
+      const rawBase = m[2] ? Number(m[2]) : 1;
+      defs.push({
+        name: m[1],
+        baseFret: Math.max(rawBase, 1),
+        frets: m[3]
+          .trim()
+          .split(/\s+/)
+          .map((v) => (v.toLowerCase() === "x" ? ("x" as const) : Number(v))),
+        fingers: m[4]
+          ? m[4]
+              .trim()
+              .split(/\s+/)
+              .map((v) => Number(v))
+          : [],
+      });
+      if (!insertedPlaceholder) {
+        out.push("{comment: __CHORD_DEFS__}");
+        insertedPlaceholder = true;
+      }
+    } else {
+      out.push(line);
+    }
+  }
+
+  return { cleaned: out.join("\n"), chordDefinitions: defs };
+}
+
+function renderTransposed(
+  body: string,
+  semitones: number,
+): { html: string; chordDefinitions: ChordDefinition[] } {
+  const { cleaned, chordDefinitions } = stripDefineLines(body);
+  const parser = new ChordSheetJS.ChordProParser();
+  const song = parser.parse(cleaned);
+  const transposed = semitones === 0 ? song : song.transpose(semitones);
+  const formatter = new ChordSheetJS.HtmlTableFormatter();
+  const html = formatter.format(transposed);
+  return { html, chordDefinitions };
+}
 
 function splitAtMarker(html: string): { before: string; after: string } | null {
   const markerIdx = html.indexOf(CHORD_DEFS_MARKER);
@@ -171,9 +227,26 @@ function escapeHtml(str: string): string {
     .replace(/"/g, "&quot;");
 }
 
+const NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+const NOTES_FLAT = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
+
+function transposedKey(key: string, semitones: number): string {
+  const match = key.match(/^([A-G][#b]?)(.*)/);
+  if (!match) return key;
+  const [, root, suffix] = match;
+  const useFlats = root.includes("b");
+  const scale = useFlats ? NOTES_FLAT : NOTES;
+  let idx = NOTES.indexOf(root);
+  if (idx === -1) idx = NOTES_FLAT.indexOf(root);
+  if (idx === -1) return key;
+  const newIdx = ((idx + semitones) % 12 + 12) % 12;
+  return scale[newIdx] + suffix;
+}
+
 export function SongSheet({
-  html,
-  chordDefinitions,
+  html: serverHtml,
+  chordDefinitions: serverChordDefs,
+  chordProBody,
   track,
   slug,
   title,
@@ -182,6 +255,7 @@ export function SongSheet({
 }: {
   html: string;
   chordDefinitions?: ChordDefinition[];
+  chordProBody: string;
   track?: Track;
   slug: string;
   title: string;
@@ -197,7 +271,15 @@ export function SongSheet({
   const [showScroll, setShowScroll] = useState(false);
   const [scrolling, setScrolling] = useState(false);
   const [scrollSpeed, setScrollSpeed] = useState(1);
+  const [transpose, setTranspose] = useState(0);
   const rafRef = useRef<number>(0);
+
+  const { html, chordDefinitions } = useMemo(() => {
+    if (transpose === 0) {
+      return { html: serverHtml, chordDefinitions: serverChordDefs };
+    }
+    return renderTransposed(chordProBody, transpose);
+  }, [transpose, chordProBody, serverHtml, serverChordDefs]);
 
   useEffect(() => {
     if (autoPlay && track && !didAutoPlay.current && !isThisTrack) {
@@ -212,8 +294,9 @@ export function SongSheet({
       : "";
 
   const handlePrint = useCallback(() => {
+    const displayKey = meta.key ? transposedKey(meta.key, transpose) : undefined;
     const metaParts = [
-      meta.key && `key: ${meta.key}`,
+      displayKey && `key: ${displayKey}`,
       meta.tempo && `${meta.tempo} bpm`,
       meta.capo && `capo ${meta.capo}`,
       meta.tuning && `tuning: ${meta.tuning}`,
@@ -231,7 +314,7 @@ export function SongSheet({
   .meta { font-size: 13px; color: #666; margin-bottom: 1.5rem; }
   .song-sheet { font-family: monospace; font-size: 13px; line-height: 1.6; }
   .song-sheet table.row { border-collapse: collapse; margin-bottom: 0.25rem; }
-  .song-sheet .chord { font-weight: 700; white-space: pre; padding: 0; }
+  .song-sheet .chord { font-weight: 700; white-space: pre; padding: 0; padding-right: 2ch; }
   .song-sheet .lyrics { white-space: pre; padding: 0; }
   .song-sheet .comment { color: #666; font-style: italic; margin-top: 1.5rem; margin-bottom: 0.5rem; }
   .song-sheet .paragraph { margin-bottom: 1rem; }
@@ -312,6 +395,26 @@ ${safeMeta.length ? `<div class="meta">${safeMeta.join(" &middot; ")}</div>` : "
           title="Auto-scroll"
         >
           <ScrollIcon size={14} />
+        </button>
+      </div>
+
+      <div className="flex items-center gap-0 mb-6 print:hidden">
+        <button
+          onClick={() => setTranspose((t) => ((t - 1 + 12) % 12))}
+          className={`${btnClass} w-[30px] h-[30px] flex items-center justify-center`}
+          title="Transpose down"
+        >
+          <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="5" y1="12" x2="19" y2="12" /></svg>
+        </button>
+        <span className="text-sm font-mono w-10 text-center">
+          {meta.key ? transposedKey(meta.key, transpose) : "key"}
+        </span>
+        <button
+          onClick={() => setTranspose((t) => ((t + 1) % 12))}
+          className={`${btnClass} w-[30px] h-[30px] flex items-center justify-center`}
+          title="Transpose up"
+        >
+          <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
         </button>
       </div>
 
