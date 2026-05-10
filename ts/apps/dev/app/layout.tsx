@@ -26,14 +26,9 @@ type NavItem = {
 const navItems: NavItem[] = [
   { href: "/", label: "home" },
   { href: "/about", label: "about" },
-  // { href: "/projects", label: "projects" },
+  { href: "/projects", label: "projects" },
   { href: "/blog", label: "blog" },
   { href: "/contact", label: "contact" },
-  {
-    href: "https://jax.krondor.org",
-    label: "jax",
-    external: true,
-  },
 ];
 
 export default function RootLayout({
