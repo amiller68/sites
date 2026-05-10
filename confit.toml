@@ -1,0 +1,20 @@
+[providers.op]
+cmd = "op read {uri}"
+
+[vars]
+stage = "development"
+project = "krondor-sites"
+cloud_vault = "cloud-providers"
+vault_slug = "{vars.project}-{vars.stage}"
+
+[cloud]
+tf_token = "secret://op://{vars.cloud_vault}/TERRAFORM_CLOUD_API_TOKEN/credential"
+docker_hub_username = "op://{vars.cloud_vault}/DOCKER_HUB_LOGIN/username"
+docker_hub_password = "secret://op://{vars.cloud_vault}/DOCKER_HUB_LOGIN/credential"
+docker_hub_token = "secret://op://{vars.cloud_vault}/DOCKER_HUB_TOKEN/credential"
+cloudflare_api_token = "secret://op://{vars.cloud_vault}/CLOUDFLARE_DNS_API_TOKEN/credential"
+digitalocean_token = "secret://op://{vars.cloud_vault}/DO_API_TOKEN/credential"
+
+[app]
+next_public_quotient_api_key = "op://{vars.vault_slug}/QUOTIENT_API_KEY/public"
+quotient_private_api_key = "secret://op://{vars.vault_slug}/QUOTIENT_API_KEY/private"

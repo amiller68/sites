@@ -79,9 +79,9 @@ Add a newsletter subscription form to the blog page that integrates with Quotien
 - `make check` passes
 
 ### Files to Consider
-- Blog page: `ts/apps/dev/app/blog/page.tsx`
-- Quotient client: `ts/apps/dev/src/lib/quotient/client.ts`
-- UI components: `ts/packages/ui/src/components/`
+- Blog page: `apps/dev/app/blog/page.tsx`
+- Quotient client: `apps/dev/src/lib/quotient/client.ts`
+- UI components: `packages/ui/src/components/`
 ```
 
 ---

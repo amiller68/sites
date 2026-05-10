@@ -37,10 +37,10 @@ Template for starting a new task. Copy this into your Claude Code conversation a
 
 ### [PROJECT_LAYOUT.md](./PROJECT_LAYOUT.md)
 Describes the monorepo structure:
-- **Apps**: `ts/apps/dev` (dev blog), `ts/apps/art` (art site)
-- **Shared packages**: `ts/packages/ui` (component library)
+- **Apps**: `apps/dev` (dev blog), `apps/alexplain` (music site)
+- **Shared packages**: `packages/ui` (component library), `packages/jax` (JAX client)
 - **Build tools**: pnpm, Turborepo, Make
-- **External services**: Quotient CMS
+- **Config**: confit + 1Password for secrets
 
 ### [TYPESCRIPT_PATTERNS.md](./TYPESCRIPT_PATTERNS.md)
 Architecture patterns for TypeScript code:
@@ -76,6 +76,4 @@ Git and PR conventions:
 
 ## External Resources
 
-- [Local Development](../development/LOCAL.md) - Full development environment
-- [Kamal Deployment](../deployment/KAMAL.md) - Deployment guide
-- [Infrastructure Setup](../setup/WALKTHROUGH.md) - Infrastructure context
+- [confit docs](https://krondor-corp.github.io/confit) - Config & secrets tool

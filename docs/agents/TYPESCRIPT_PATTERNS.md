@@ -315,7 +315,7 @@ export const buttonVariants = cva(
 ### App Directory Structure
 
 ```
-ts/apps/dev/
+apps/dev/
 ├── app/
 │   ├── layout.tsx           # Root layout
 │   ├── page.tsx             # Home page
@@ -344,7 +344,7 @@ ts/apps/dev/
 ### Package Structure
 
 ```
-ts/packages/ui/
+packages/ui/
 ├── src/
 │   ├── index.ts             # Main exports
 │   ├── lib/

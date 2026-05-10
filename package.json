@@ -1,0 +1,22 @@
+{
+  "name": "krondor-sites",
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@9.15.9",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "build:dev": "confit run app --upper -- turbo run build --env-mode=loose",
+    "dev": "confit run app --upper -- turbo run dev --env-mode=loose",
+    "test": "turbo run test",
+    "fmt": "turbo run fmt",
+    "fmt:check": "turbo run fmt:check",
+    "types": "turbo run check-types",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "prettier": "^3.7.4",
+    "turbo": "^2.7.3"
+  }
+}

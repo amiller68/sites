@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# Pre-app-boot hook
-# Previously stopped JAX containers to prevent database lock conflicts,
-# but this is no longer needed with the filesystem blob store backend.

@@ -1,178 +1,45 @@
-ARGS ?=
-
-# TODO: Add more projects as needed here
-PROJECTS := ts
-
 .PHONY: help
 help: ## Show this help message
 	@echo 'Usage: make [target]'
 	@echo ''
-	@echo 'Run-all targets (operate on all projects):'
-	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z_-]+:.*?##/ && !/^[a-zA-Z_-]+-%:/ { printf "  %-20s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
-	@echo ''
-	@echo 'Project-specific targets (use with -<project> suffix, e.g., -ts, -alexplain):'
-	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z_-]+-%:.*?##/ { gsub(/-%/, "-<project>", $$1); printf "  %-20s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
-	@echo ''
-	@echo 'Available projects:'
-	@for project in $(PROJECTS); do \
-	    echo "  - $$project"; \
-	done
-
-.PHONY: dev
-dev: ## Run all development servers in tmux (use ARGS="--kill" to kill session)
-	@./bin/dev $(ARGS)
-
-# run a make command in the given directory
-run-for:
-	@if [ -d "./$(PROJECT)" ]; then \
-		if [ -f "./$(PROJECT)/Makefile" ]; then \
-			cd ./$(PROJECT) && make $(CMD); \
-		else \
-			echo "Error: Makefile not found in ./$(PROJECT) directory"; \
-			exit 1; \
-		fi; \
-	else \
-		echo "Error: Directory ./$(PROJECT) does not exist"; \
-		exit 1; \
-	fi
-
-.PHONY: check
-check: ## Check all projects
-	@for project in $(PROJECTS); do \
-		$(MAKE) run-for PROJECT=$$project CMD=check; \
-	done
-
-.PHONY: check-%
-check-%: ## Check the given project
-	@$(MAKE) run-for PROJECT=$(@:check-%=%) CMD=check
-
+	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z_-]+:.*?##/ { printf "  %-20s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
 .PHONY: install
-install: ## Install dependencies for all projects
-	@for project in $(PROJECTS); do \
-		$(MAKE) run-for PROJECT=$$project CMD=install; \
-	done
+install: ## Install dependencies
+	@pnpm install
 
-.PHONY: install-%
-install-%: ## Install dependencies for the given project
-	@$(MAKE) run-for PROJECT=$(@:install-%=%) CMD=install
+.PHONY: dev
+dev: ## Run development servers
+	@pnpm dev
 
 .PHONY: build
-build: ## Build all projects
-	@for project in $(PROJECTS); do \
-		$(MAKE) run-for PROJECT=$$project CMD=build; \
-	done
+build: ## Build all apps
+	@pnpm build
 
-.PHONY: build-%
-build-%: ## Build the given project
-	@$(MAKE) run-for PROJECT=$(@:build-%=%) CMD=build
+.PHONY: build-dev
+build-dev: ## Build with dev secrets via confit
+	@pnpm build:dev
 
 .PHONY: test
-test: ## Run tests for all projects
-	@for project in $(PROJECTS); do \
-		$(MAKE) run-for PROJECT=$$project CMD=test; \
-	done
-
-.PHONY: test-%
-test-%: ## Run tests for the given project
-	@$(MAKE) run-for PROJECT=$(@:test-%=%) CMD=test
-
-.PHONY: lint
-lint: ## Run linters for all projects
-	@for project in $(PROJECTS); do \
-		$(MAKE) run-for PROJECT=$$project CMD=lint; \
-	done
-
-.PHONY: lint-%
-lint-%: ## Run linters for the given project
-	@$(MAKE) run-for PROJECT=$(@:lint-%=%) CMD=lint
+test: ## Run tests
+	@pnpm test
 
 .PHONY: fmt
-fmt: ## Format all projects
-	@for project in $(PROJECTS); do \
-		$(MAKE) run-for PROJECT=$$project CMD=fmt; \
-	done
-
-.PHONY: fmt-%
-fmt-%: ## Format the given project
-	@$(MAKE) run-for PROJECT=$(@:fmt-%=%) CMD=fmt
+fmt: ## Format code
+	@pnpm fmt
 
 .PHONY: fmt-check
-fmt-check: ## Check formatting for all projects
-	@for project in $(PROJECTS); do \
-		$(MAKE) run-for PROJECT=$$project CMD=fmt-check; \
-	done
-
-.PHONY: fmt-check-%
-fmt-check-%: ## Check formatting for the given project
-	@$(MAKE) run-for PROJECT=$(@:fmt-check-%=%) CMD=fmt-check
+fmt-check: ## Check formatting
+	@pnpm fmt:check
 
 .PHONY: types
-types: ## Run type checking for all projects
-	@for project in $(PROJECTS); do \
-		$(MAKE) run-for PROJECT=$$project CMD=types; \
-	done
+types: ## Type check
+	@pnpm types
 
-.PHONY: types-%
-types-%: ## Run type checking for the given project
-	@$(MAKE) run-for PROJECT=$(@:types-%=%) CMD=types
-
-.PHONY: docker-build
-docker-build: ## Build Docker images for all projects
-	@for project in $(PROJECTS); do \
-		$(MAKE) run-for PROJECT=$$project CMD=docker-build; \
-	done
-
-.PHONY: docker-build-%
-docker-build-%: ## Build Docker image for the given project
-	@$(MAKE) run-for PROJECT=$(@:docker-build-%=%) CMD=docker-build
+.PHONY: check
+check: fmt-check types ## Run all checks
 
 .PHONY: clean
-clean: ## Clean all projects
-	@for project in $(PROJECTS); do \
-		$(MAKE) run-for PROJECT=$$project CMD=clean; \
-	done
-
-.PHONY: clean-%
-clean-%: ## Clean the given project
-	@$(MAKE) run-for PROJECT=$(@:clean-%=%) CMD=clean
-
-.PHONY: styles
-styles: ## Build styles for all projects
-	@for project in $(PROJECTS); do \
-		$(MAKE) run-for PROJECT=$$project CMD=styles; \
-	done
-
-.PHONY: styles-%
-styles-%: ## Build styles for the given project
-	@$(MAKE) run-for PROJECT=$(@:styles-%=%) CMD=styles
-
-.PHONY: styles-watch
-styles-watch: ## Watch styles for all projects
-	@for project in $(PROJECTS); do \
-		$(MAKE) run-for PROJECT=$$project CMD=styles-watch; \
-	done
-
-.PHONY: styles-watch-%
-styles-watch-%: ## Watch styles for the given project
-	@$(MAKE) run-for PROJECT=$(@:styles-watch-%=%) CMD=styles-watch
-
-# Terraform Cloud management - pass all arguments after 'tfc' to the script
-.PHONY: tfc
-tfc: ## Terraform Cloud management - pass all arguments after 'tfc' to the script
-	@./bin/tfc $(filter-out $@,$(MAKECMDGOALS))
-
-
-# Infrastructure management - pass all arguments after 'iac' to the script
-.PHONY: iac
-iac: ## Infrastructure management - run terraform with vault secrets
-	@./bin/iac $(filter-out $@,$(MAKECMDGOALS))
-
-# Deployment management - pass all arguments after 'kamal' to the kamal script
-.PHONY: kamal
-kamal: ## Deploy services using Kamal
-	@./bin/kamal $(filter-out $@,$(MAKECMDGOALS))
-
-# Catch additional arguments to tfc, ghcr, iac, and deploy commands
-%:
-	@:
+clean: ## Clean build artifacts and node_modules
+	@pnpm clean
+	@rm -rf node_modules apps/*/node_modules packages/*/node_modules .turbo

@@ -93,9 +93,9 @@ gh pr create --title "Add contact form functionality" --body "$(cat <<'EOF'
 - [x] `make check` passes
 
 ## Changes
-- `ts/apps/dev/app/contact/page.tsx` - Contact page
-- `ts/apps/dev/app/contact/contact-form.tsx` - Form component
-- `ts/apps/dev/src/lib/quotient/client.ts` - Quotient hooks
+- `apps/dev/app/contact/page.tsx` - Contact page
+- `apps/dev/app/contact/contact-form.tsx` - Form component
+- `apps/dev/src/lib/quotient/client.ts` - Quotient hooks
 
 Generated with [Claude Code](https://claude.com/claude-code)
 EOF

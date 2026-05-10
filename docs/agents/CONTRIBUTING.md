@@ -88,7 +88,7 @@ getBlog
 3. **Set up environment**
    ```bash
    # Copy example env files
-   cp ts/apps/dev/.env.example ts/apps/dev/.env.local
+   cp apps/dev/.env.example apps/dev/.env.local
    # Fill in Quotient credentials
    ```
 
